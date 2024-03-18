@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Forum Detail</title>
+        <h1>Forum Thread</h1>
+    </head>
+    <body>
+        <h2>{{ post.title }}</h2>
+        <p>
+            Post Category: {{ post.category.name }} <br/>
+            Category Description: {{ post.category.description }}
+        </p>
+        <p>
+            Created on: {{ post.created_on }} <br/>
+            Updated on: {{ post.updated_on }}
+        </p>
+        <p>
+            <h3>Post Entry</h3>
+            {{ post.entry }}
+        </p>
+        <a href="{{ post.get_root_url }}">Threads List</a>
+    </body>
+</html>
