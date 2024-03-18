@@ -23,8 +23,3 @@ class ArticleAdmin(admin.ModelAdmin):
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(ArticleCategory, ArticleCategoryAdmin)
 
-
-task_list.html
-{% for task in objec_list}
-<li>
-    <a href="{{ task.get_absolute_url }}">
