@@ -10,7 +10,9 @@
     <ul>
         {% for product in product %}
             <li>
-                <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
+                <a href="{% url 'merchstore:detail' pk=product.pk %}">
+                    <b>{{ product.name }}</b>
+                </a>
             </li>
         {% endfor %}
     </ul>
