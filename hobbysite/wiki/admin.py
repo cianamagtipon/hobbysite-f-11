@@ -4,8 +4,8 @@ from .models import Article, ArticleCategory
 class ArticleCategoryAdmin(admin.ModelAdmin):
     model = ArticleCategory
 
-    search_fields=['name']
-    list_display=['name']
+    search_fields=["name"]
+    list_display=["name"]
 
     fieldsets = [("Details", {"fields": ("name", "description")})]
 
@@ -13,9 +13,7 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
 
-    search_fields = [
-        "title",
-    ]
+    search_fields = ["title"]
     list_display = ["title", "category", "created_on", "updated_on"]
     list_filter = ["created_on", "updated_on",]
 

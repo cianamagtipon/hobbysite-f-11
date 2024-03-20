@@ -5,11 +5,13 @@ class ArticleCategory(models.Model):
     description = models.TextField()
     
     def __str__ (self):
-        return '{}'.format(self.name)
+        return self.name
     
 
     class Meta:
         ordering = ['name']
+        verbose_name = "Article Category"
+        verbose_name_plural = "Article Categories"
 
 
 class Article(models.Model):
@@ -20,8 +22,10 @@ class Article(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     
     def __str__ (self):
-        return '{}'.format(self.title)
+        return self.title
     
 
     class Meta:
         ordering = ['-created_on']
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
