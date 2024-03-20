@@ -28,7 +28,7 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('merchstore:detail', args={'pk': self.pk})
+        return reverse('merchstore:detail', args=[self.pk])
     
     
     class Meta:

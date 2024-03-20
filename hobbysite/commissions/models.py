@@ -23,7 +23,7 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Comment by {} on {}'.format(self.id, self.commission.title)
+        return self.entry
     
     
     class Meta:

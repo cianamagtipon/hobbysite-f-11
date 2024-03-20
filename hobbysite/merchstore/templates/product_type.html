@@ -10,7 +10,7 @@
     <ul>
         {% for product in product %}
             <li>
-                <a href="{% url 'merchstore:detail' pk=product.pk %}">
+                <a href="{{ product.get_absolute_url }}">
                     <b>{{ product.name }}</b>
                 </a>
             </li>
