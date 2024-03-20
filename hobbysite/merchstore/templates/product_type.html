@@ -3,14 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block page_heading %}
-    <h1>Product List</h1>
+    <h1 style="color:#485935">Product List</h1>
 {% endblock %}
 
 {% block content %}
     <ul>
         {% for product in product %}
             <li>
-                <a href="{{ product.get_absolute_url }}">
+                <a href="{{ product.get_absolute_url }}" style="color:#8A9A5B">
                     <b>{{ product.name }}</b>
                 </a>
             </li>

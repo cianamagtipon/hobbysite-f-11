@@ -2,13 +2,13 @@
 <html>
     <head>
         <title>Forum List</title>
-        <h1>Forum Thread List</h1>
+        <h1 style="color:#485935">Forum Thread List</h1>
     </head>
     <body>
         <ul>
             {% for post in object_list %}
             <li>
-                <a href="{{ post.get_absolute_url }}">
+                <a href="{{ post.get_absolute_url }}" style="color:#8A9A5B">
                     <b>{{ post.title }}</b>
                 </a>
             </li>

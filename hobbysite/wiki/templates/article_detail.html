@@ -4,7 +4,7 @@
         <title>{{ article.title }}</title>
     </head>
     <body>
-        <h1>{{ article.title }}</h1>
+        <h1 style="color:#485935">{{ article.title }}</h1>
         <p>
             Category: {{ article.category.name }} <br/>
             Category Description: {{ article.category.description }}
@@ -13,8 +13,8 @@
             Created On: {{ article.created_on }} <br/>
             Updated On: {{ article.updated_on }}
         </p>
-        <h2>Entry</h2> 
+        <h2 style="color:#8A9A5B">Entry</h2> 
         <p>{{ article.entry }}</p>
-        <a href="{% url 'wiki:article-list' %}">Article List</a>
+        <a href="{% url 'wiki:article-list' %}" style="color:#485935">Article List</a>
     </body>
 </html>

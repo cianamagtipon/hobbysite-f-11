@@ -3,7 +3,7 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block page_heading %}
-    <h1>{{ product.name }}</h1>
+    <h1 style="color:#485935">{{ product.name }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -12,12 +12,12 @@
         Description: {{ product.description }}
     </p>
     <p>Price: ₱{{ product.price }}</p>
-    <a href="{% url 'merchstore:list' %}">Home</a>
-    <h3>Related Products:</h3>
+    <a href="{% url 'merchstore:list' %}" style="color:#8A9A5B">Home</a>
+    <h3 style="color:#485935">Related Products:</h3>
     <ul>
         {% for related_product in related_products %}
             <li>
-                <a href="{% url 'merchstore:detail' pk=related_product.pk %}">
+                <a href="{% url 'merchstore:detail' pk=related_product.pk %}" style="color:#8A9A5B">
                 {{ related_product.name }}</a> - ₱{{ related_product.price }}
             </li>
         {% empty %}
