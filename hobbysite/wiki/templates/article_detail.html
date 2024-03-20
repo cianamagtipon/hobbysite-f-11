@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{article.title}}</title>
+        <title>{{ article.title }}</title>
     </head>
     <body>
-        <h1>{{article.title}}</h1>
-        <p><strong>Category:</strong>{{article.category}}</p>
-        <p><strong>Entry:</strong>{{article.entry}}</p>
-        <p><strong>Created On:</strong>{{article.created_on}}</p>
-        <p><strong>Updated On:</strong>{{article.updated_on}}</p>
+        <h1>{{ article.title }}</h1>
+        <p>
+            Category: {{ article.category.name }} <br/>
+            Category Description: {{ article.category.description }}
+        </p>
+        <p>
+            Created On: {{ article.created_on }} <br/>
+            Updated On: {{ article.updated_on }}
+        </p>
+        <h2>Entry</h2> 
+        <p>{{ article.entry }}</p>
     </body>
 </html>
