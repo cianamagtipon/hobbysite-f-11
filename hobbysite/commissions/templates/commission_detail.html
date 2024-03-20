@@ -3,8 +3,13 @@
         <h1>{{ commission.title }}</h1>
     </head>
     <body>
-        <p>{{ commission.description }}</p>
+        <p>
+            Created On: {{ commission.created_on }} <br/>
+            Updated On: {{ commission.updated_on }}
+        </p>
         <p>People Required: {{ commission.people_required }}</p>
-        <p>Created On: {{ commission.created_on }}</p>
+        <h2>Description</h2>
+        <p>{{ commission.description }}</p>
+        <a href="{% url 'commissions:commission_list' %}">Commissions List</a>
     </body>
 </html>

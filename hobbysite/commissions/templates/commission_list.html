@@ -6,7 +6,9 @@
         <ul>
             {% for commission in commissions %}
             <li>
-                <a href="{% url 'commissions:commission_detail' pk=commission.pk %}">{{ commission.title }}</a>
+                <a href="{% url 'commissions:commission_detail' pk=commission.pk %}">
+                    <b>{{ commission.title }}</b>
+                </a>
             </li>
             {% endfor %}
         </ul>
