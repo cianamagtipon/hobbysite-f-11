@@ -5,6 +5,7 @@
         <h1 style="color:#485935">Forum Thread</h1>
     </head>
     <body>
+        <div style="max-width:800px; text-align:justified">
         <h2 style="color:#8A9A5B">{{ post.title }}</h2>
         <p>
             Post Category: {{ post.category.name }} <br/>
@@ -19,5 +20,6 @@
             {{ post.entry }}
         </p>
         <a href="{{ post.get_root_url }}" style="color:#485935">Threads List</a>
+        </div>
     </body>
 </html>

@@ -4,6 +4,7 @@
         <title>{{ article.title }}</title>
     </head>
     <body>
+        <div style="max-width:800px; text-align:justified">
         <h1 style="color:#485935">{{ article.title }}</h1>
         <p>
             Category: {{ article.category.name }} <br/>
@@ -16,5 +17,6 @@
         <h2 style="color:#8A9A5B">Entry</h2> 
         <p>{{ article.entry }}</p>
         <a href="{% url 'wiki:article-list' %}" style="color:#485935">Article List</a>
+    </div>
     </body>
 </html>

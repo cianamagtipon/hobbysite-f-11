@@ -3,6 +3,7 @@
         <h1 style="color:#485935">{{ commission.title }}</h1>
     </head>
     <body>
+        <div style="max-width:800px; text-align:justified">
         <p>
             Created On: {{ commission.created_on }} <br/>
             Updated On: {{ commission.updated_on }}
@@ -11,5 +12,6 @@
         <h2 style="color:#8A9A5B">Description</h2>
         <p>{{ commission.description }}</p>
         <a href="{% url 'commissions:commission_list' %}" style="color:#485935">Commissions List</a>
+    </div>
     </body>
 </html>
