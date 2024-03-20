@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block page_heading %}
+    <h2>{{ product.name }}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Description: {{ product.description }}</p>
+    <p>Price: ₱{{ product.price }}</p>
+    <h3>Related Products:</h3>
+    <ul>
+        {% for related_product in related_products %}
+            <li>{{ related_product.name }} - ₱{{ related_product.price }}</li>
+        {% empty %}
+            <li>No related products found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
