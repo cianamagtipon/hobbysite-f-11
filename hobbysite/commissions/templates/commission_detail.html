@@ -1,5 +1,10 @@
-<!-- commissions/templates/commissions/commission_detail.html -->
-<h2>{{ commission.title }}</h2>
-<p>{{ commission.description }}</p>
-<p>People Required: {{ commission.people_required }}</p>
-<p>Created On: {{ commission.created_on }}</p>
+<html>
+    <head>
+        <h1>{{ commission.title }}</h1>
+    </head>
+    <body>
+        <p>{{ commission.description }}</p>
+        <p>People Required: {{ commission.people_required }}</p>
+        <p>Created On: {{ commission.created_on }}</p>
+    </body>
+</html>
