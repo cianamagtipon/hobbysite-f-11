@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ article.title }}</title>
+    </head>
+    <body>
+        <div style="max-width:800px; text-align:justified">
+        <h1 style="color:#485935">{{ article.title }}</h1>
+        <p>
+            Category: {{ article.category.name }} <br/>
+            Category Description: {{ article.category.description }}
+        </p>
+        <p>
+            Created On: {{ article.created_on }} <br/>
+            Updated On: {{ article.updated_on }}
+        </p>
+        <h2 style="color:#8A9A5B">Entry</h2> 
+        <p>{{ article.entry }}</p>
+        <a href="{% url 'wiki:article-list' %}" style="color:#485935">Article List</a>
+    </div>
+    </body>
+</html>

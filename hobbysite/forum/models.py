@@ -10,7 +10,7 @@ class PostCategory(models.Model):
     description = models.TextField()
     
     def __str__(self):
-        return '{}'.format(self.name)
+        return self.name
     
     class Meta:
         ordering = ["name"]
@@ -30,6 +30,9 @@ class Post(models.Model):
         blank=True,
         related_name='posts'
     )
+    
+    def __str__(self):
+        return self.title
     
     def get_root_url(self):
         return reverse('forum:threads')

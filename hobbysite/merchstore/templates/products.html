@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block page_heading %}
+    <h1 style="color:#485935">{{ product.name }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div style="max-width:800px; text-align:justified">
+    <p>
+        Product Type: {{product.product_type}} <br/>
+        Description: {{ product.description }}
+    </p>
+    <p>Price: ₱{{ product.price }}</p>
+    <a href="{% url 'merchstore:list' %}" style="color:#8A9A5B">Home</a>
+    </div>
+    <h3 style="color:#485935">Related Products:</h3>
+    <ul>
+        {% for related_product in related_products %}
+            <li>
+                <a href="{% url 'merchstore:detail' pk=related_product.pk %}" style="color:#8A9A5B">
+                {{ related_product.name }}</a> - ₱{{ related_product.price }}
+            </li>
+        {% empty %}
+            <li>No related products found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

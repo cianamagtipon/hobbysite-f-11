@@ -2,10 +2,11 @@
 <html>
     <head>
         <title>Forum Detail</title>
-        <h1>Forum Thread</h1>
+        <h1 style="color:#485935">Forum Thread</h1>
     </head>
     <body>
-        <h2>{{ post.title }}</h2>
+        <div style="max-width:800px; text-align:justified">
+        <h2 style="color:#8A9A5B">{{ post.title }}</h2>
         <p>
             Post Category: {{ post.category.name }} <br/>
             Category Description: {{ post.category.description }}
@@ -15,9 +16,10 @@
             Updated on: {{ post.updated_on }}
         </p>
         <p>
-            <h3>Post Entry</h3>
+            <h3 style="color:#8A9A5B">Post Entry</h3>
             {{ post.entry }}
         </p>
-        <a href="{{ post.get_root_url }}">Threads List</a>
+        <a href="{{ post.get_root_url }}" style="color:#485935">Threads List</a>
+        </div>
     </body>
 </html>
