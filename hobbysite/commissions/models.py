@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -9,6 +10,11 @@ class Commission(models.Model):
 
     def __str__(self):
         return self.title
+    
+    
+    class Meta:
+        ordering = ["created_on"]
+
 
 class Comment(models.Model):
     commission = models.ForeignKey(Commission, on_delete=models.CASCADE)
@@ -18,3 +24,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.id, self.commission.title)
+    
+    
+    class Meta:
+        ordering = ["-created_on"]
