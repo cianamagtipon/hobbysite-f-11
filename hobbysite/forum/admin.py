@@ -14,16 +14,19 @@ class PostCategoryAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     model = Post
 
-    search_fields = [
-        "title",
-    ]
-    list_display = ["title", "category", "created_on", "updated_on"]
+    search_fields = ["title"]
+    list_display = [
+        "title", 
+        "category", 
+        "created_on", 
+        "updated_on"]
     list_filter = [
         "created_on",
         "updated_on",
     ]
 
-    fieldsets = [("Details", {"fields": [("title", "entry"), "category"]})]
+    fieldsets = [
+        ("Details", {"fields": [("title", "entry"), "category"]})]
 
 
 admin.site.register(PostCategory, PostCategoryAdmin)

@@ -6,7 +6,17 @@ from .models import ProductType, Product
 class ProductTypeAdmin(admin.ModelAdmin):
     inlines = ()
     
+    search_fields = ["name"]
+    list_display = ["name"]
+    
+    fieldsets = [("Details", {"fields": ("name", "description")})]
+    
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = ()
+    
+    search_fields = ["name"]
+    list_display = ["name", "product_type", "price"]
+
+    fieldsets = [("Details", {"fields": [("name", "description", "price"), "product_type"]})]
