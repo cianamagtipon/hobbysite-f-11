@@ -1,0 +1,9 @@
+<!-- commissions/templates/commissions/commission_list.html -->
+<h2>Commissions List</h2>
+<ul>
+    {% for commission in commissions %}
+    <li>
+        <a href="{% url 'commission_detail' pk=commission.pk %}">{{ commission.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
