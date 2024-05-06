@@ -6,20 +6,20 @@
     </head>
     <body>
         <div style="max-width:800px; text-align:justified">
-        <h2 style="color:#8A9A5B">{{ post.title }}</h2>
+        <h2 style="color:#8A9A5B">{{ thread.title }}</h2>
         <p>
-            Post Category: {{ post.category.name }} <br/>
-            Category Description: {{ post.category.description }}
+            Thread Category: {{ thread.category.name }} <br/>
+            Category Description: {{ thread.category.description }}
         </p>
         <p>
-            Created on: {{ post.created_on }} <br/>
-            Updated on: {{ post.updated_on }}
+            Created on: {{ thread.created_on }} <br/>
+            Updated on: {{ thread.updated_on }}
         </p>
         <p>
-            <h3 style="color:#8A9A5B">Post Entry</h3>
-            {{ post.entry }}
+            <h3 style="color:#8A9A5B">Thread Entry</h3>
+            {{ thread.entry }}
         </p>
-        <a href="{{ post.get_root_url }}" style="color:#485935">Threads List</a>
+        <a href="{{ thread.get_root_url }}" style="color:#485935">Threads List</a>
         </div>
     </body>
 </html>

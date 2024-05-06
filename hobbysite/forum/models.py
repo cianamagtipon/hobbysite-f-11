@@ -5,7 +5,7 @@ from time import timezone
 import datetime
 
 
-class PostCategory(models.Model):
+class ThreadCategory(models.Model):
     name = models.CharField(max_length=225)
     description = models.TextField()
     
@@ -14,21 +14,23 @@ class PostCategory(models.Model):
     
     class Meta:
         ordering = ["name"]
-        verbose_name = "Post Category"
-        verbose_name_plural = "Post Categories"
+        verbose_name = "Thread Category"
+        verbose_name_plural = "Thread Categories"
 
 
-class Post(models.Model):
+class Thread(models.Model):
     title = models.CharField(max_length=225)
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    # (optional) image
+    # author
     category = models.ForeignKey(
-        PostCategory, 
+        ThreadCategory, 
         on_delete=models.SET_NULL,
         null=True, 
         blank=True,
-        related_name='posts'
+        related_name='threads'
     )
     
     def __str__(self):
@@ -43,5 +45,5 @@ class Post(models.Model):
     
     class Meta:
         ordering = ["-created_on"]
-        verbose_name = "Post"
-        verbose_name_plural = "Posts"
+        verbose_name = "Thread"
+        verbose_name_plural = "Threads"

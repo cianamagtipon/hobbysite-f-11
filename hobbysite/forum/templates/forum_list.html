@@ -6,10 +6,10 @@
     </head>
     <body>
         <ul>
-            {% for post in object_list %}
+            {% for thread in object_list %}
             <li>
-                <a href="{{ post.get_absolute_url }}" style="color:#8A9A5B">
-                    <b>{{ post.title }}</b>
+                <a href="{{ thread.get_absolute_url }}" style="color:#8A9A5B">
+                    <b>{{ thread.title }}</b>
                 </a>
             </li>
             {% endfor %}

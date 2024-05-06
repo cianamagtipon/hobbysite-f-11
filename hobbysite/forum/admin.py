@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Post, PostCategory
+from .models import Thread, ThreadCategory
 
 
-class PostCategoryAdmin(admin.ModelAdmin):
-    model = PostCategory
+class ThreadCategoryAdmin(admin.ModelAdmin):
+    model = ThreadCategory
     
     search_fields = ["name"]
     list_display = ["name"]
@@ -11,8 +11,8 @@ class PostCategoryAdmin(admin.ModelAdmin):
     fieldsets = [("Details", {"fields": ("name", "description")})]
 
 
-class PostAdmin(admin.ModelAdmin):
-    model = Post
+class ThreadAdmin(admin.ModelAdmin):
+    model = Thread
 
     search_fields = ["title"]
     list_display = ["title", "category", "created_on", "updated_on"]
@@ -22,5 +22,5 @@ class PostAdmin(admin.ModelAdmin):
         ("Details", {"fields": [("title", "entry"), "category"]})]
 
 
-admin.site.register(PostCategory, PostCategoryAdmin)
-admin.site.register(Post, PostAdmin)
+admin.site.register(ThreadCategory, ThreadCategoryAdmin)
+admin.site.register(Thread, ThreadAdmin)
