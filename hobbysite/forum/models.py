@@ -47,3 +47,27 @@ class Thread(models.Model):
         ordering = ["-created_on"]
         verbose_name = "Thread"
         verbose_name_plural = "Threads"
+        
+        
+class Comment(models.Model):
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    # author
+    thread = models.ForeignKey(
+        Thread, 
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    
+    def get_root_url(self):
+        return reverse('forum:threads')
+
+    def get_absolute_url(self):
+        return reverse('forum:forum-detail', args=[self.pk])
+    
+    
+    class Meta:
+        ordering = ["created_on"]
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
