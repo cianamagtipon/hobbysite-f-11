@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Thread, ThreadCategory
+from .models import Thread, ThreadCategory, Comment
 
 
 class ThreadCategoryAdmin(admin.ModelAdmin):
@@ -22,5 +22,16 @@ class ThreadAdmin(admin.ModelAdmin):
         ("Details", {"fields": [("title", "entry"), "category"]})]
 
 
+class CommentAdmin(admin.ModelAdmin):
+    model = Comment
+
+    list_display = ["thread", "created_on", "updated_on"]
+    list_filter = ["created_on", "updated_on"]
+
+    fieldsets = [
+        ("Details", {"fields": [("title", "entry"), "thread"]})]
+
+
 admin.site.register(ThreadCategory, ThreadCategoryAdmin)
 admin.site.register(Thread, ThreadAdmin)
+admin.site.register(Comment, CommentAdmin)
