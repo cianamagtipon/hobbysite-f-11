@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from hobbysite.forum.forms import ThreadForm
-from .models import Thread
+from .forms import ThreadForm
+from .models import Thread, ThreadCategory
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -27,13 +27,13 @@ class ThreadDetailView(DetailView):
 class ThreadCreateView(CreateView):
     model = Thread
     form_class = ThreadForm
-    template_name = "task_create.html"
+    template_name = "thread_create.html"
     
     def get_success_url(self):
-        return reverse_lazy("tasks:list")
+        return reverse_lazy("forum:threads")
     
 
 class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
     form_class = ThreadForm
-    template_name = "task_detail.html"
+    template_name = "thread_detail.html"
