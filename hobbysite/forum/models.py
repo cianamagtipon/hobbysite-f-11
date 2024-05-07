@@ -40,7 +40,7 @@ class Thread(models.Model):
         return reverse('forum:threads')
 
     def get_absolute_url(self):
-        return reverse('forum:forum-detail', args=[self.pk])
+        return reverse('forum:thread-detail', args=[self.pk])
     
     
     class Meta:
@@ -64,7 +64,7 @@ class Comment(models.Model):
         return reverse('forum:threads')
 
     def get_absolute_url(self):
-        return reverse('forum:forum-detail', args=[self.pk])
+        return reverse('forum:thread-detail', args=[self.pk])
     
     
     class Meta:
