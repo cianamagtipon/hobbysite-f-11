@@ -29,7 +29,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ["created_on", "updated_on"]
 
     fieldsets = [
-        ("Details", {"fields": [("title", "entry"), "thread"]})]
+        ("Details", {"fields": [("entry"), "thread"]})]
 
 
 admin.site.register(ThreadCategory, ThreadCategoryAdmin)
