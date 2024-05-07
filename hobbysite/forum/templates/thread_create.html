@@ -3,18 +3,18 @@
     <head>
     </head>
     <body>
+        {% if request.user.is_authenticated %}
         <form method="POST">
-            {% if request.user.is_authenticated %}
-                <h1>Hello {{ request.user.username }}</h1>
-                <form action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                    {{ form.as_div }}
-                    <button type="submit">Submit</button>
-                    <button type="submit">LOG OUT</button>
-                </form>
-            {% else %}
-                <h1><a href="{% url 'login' %}">LOG IN</a></h1>
-            {% endif %}
+            <h1>Hello {{ request.user.username }}</h1>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button type="submit">Submit</button>
+                <button type="submit">LOG OUT</button>
+            </form>
+        {% else %}
+            <h1><a href="{% url 'login' %}">LOG IN</a></h1>
+        {% endif %}
         </form>
     </body>
 </html>
