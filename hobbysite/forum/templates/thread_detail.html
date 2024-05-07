@@ -19,6 +19,16 @@
             <h3 style="color:#8A9A5B">Thread Entry</h3>
             {{ thread.entry }}
         </p>
+        <p>
+            <h3 style="color:#8A9A5B">Threads Under The Same Category</h3>
+            <ul>
+                <li>
+                    <a href="{{ thread.get_absolute_url }}" style="color:#485935">
+                        {{ thread.title }}
+                    </a>
+                </li>
+            </ul>
+        </p>
         <a href="{{ thread.get_root_url }}" style="color:#485935">Threads List</a>
         </div>
     </body>
