@@ -11,9 +11,9 @@ def index(request):
 
 class ThreadListView(ListView):
     model = Thread
-    template_name = 'forum_list.html'
+    template_name = 'thread_list.html'
 
 
 class ThreadDetailView(DetailView):
     model = Thread
-    template_name = 'forum_detail.html'
+    template_name = 'thread_detail.html'
