@@ -24,7 +24,7 @@ class ThreadDetailView(DetailView):
     template_name = 'thread_detail.html'
     
 
-class ThreadCreateView(CreateView):
+class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
     form_class = ThreadForm
     template_name = "thread_create.html"
@@ -37,3 +37,6 @@ class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
     form_class = ThreadForm
     template_name = "thread_detail.html"
+    
+    def get_success_url(self):
+        return reverse_lazy("forum:threads")
