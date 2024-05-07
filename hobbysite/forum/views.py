@@ -9,11 +9,11 @@ def index(request):
     return HttpResponse('Welcome to Forum Threads!')
 
 
-class ForumListView(ListView):
+class ThreadListView(ListView):
     model = Thread
     template_name = 'forum_list.html'
 
 
-class ForumDetailView(DetailView):
+class ThreadDetailView(DetailView):
     model = Thread
     template_name = 'forum_detail.html'
