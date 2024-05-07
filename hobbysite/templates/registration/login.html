@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task List</title>
+        <h1>Login</h1>
+    </head>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href = "{% url 'password_reset' %}">Forgot Password?</a>
+            <p>
+                <button type="submit">Login</button>
+            </p>
+        </form>
+    </body>
+</html>
