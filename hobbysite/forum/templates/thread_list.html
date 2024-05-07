@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Forum List</title>
+        <h1 style="color:#485935">Forum Thread List</h1>
+    </head>
+    <body>
+        {% regroup object_list|dictsort:"category.name" by category as thread_list_by_category %}
+        <ul>
+            {% for category in thread_list_by_category %}
+            <li>
+                <b style="color:#8A9A5B">{{ category.grouper }}</b>
+                </a>
+                <ul>
+                    {% for thread in category.list %}
+                    <li>
+                        <a href="{{ thread.get_absolute_url }}" style="color:#485935">
+                            {{ thread.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
