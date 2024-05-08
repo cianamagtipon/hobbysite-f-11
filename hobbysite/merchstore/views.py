@@ -33,11 +33,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'product_create.html'
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user.profile
         return super().form_valid(form)
 
     def get_success_url(self):
-        # Redirect to the product list view
         return reverse_lazy('merchstore:list')
 
 
