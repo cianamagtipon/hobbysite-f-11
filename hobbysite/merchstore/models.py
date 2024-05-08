@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from user_management.models import Profile
+from user_management import models as user_models
 
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
@@ -22,7 +23,7 @@ class Product(models.Model):
         related_name='products'
     )
     owner = models.ForeignKey(
-        Profile, 
+        user_models.Profile, 
         on_delete=models.CASCADE,
         null=True 
     )
