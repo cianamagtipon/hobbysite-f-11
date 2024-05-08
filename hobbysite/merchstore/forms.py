@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Transaction
 
 class ProductCreateForm(forms.ModelForm):
     class Meta:
@@ -28,3 +28,8 @@ class ProductUpdateForm(forms.ModelForm):
         else:
             cleaned_data['status'] = 'Available'
         return cleaned_data
+    
+class TransactionForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['amount', 'status']
