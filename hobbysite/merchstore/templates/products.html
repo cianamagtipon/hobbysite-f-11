@@ -58,6 +58,11 @@
             Description: {{ product.description }}
         </p>
         <p>Price: ₱{{ product.price }}</p>
+        <form action="{% url 'merchstore:cart' %}" method="POST">
+            {% csrf_token %}
+            {{ transaction_form.as_p }}
+            <button type="submit">Purchase</button>
+        </form>
     </div>
     <h3 style="color:#485935">Related Products:</h3>
     <ul>
