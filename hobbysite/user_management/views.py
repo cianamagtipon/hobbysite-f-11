@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # Import messages
 from .forms import RegisterForm, LoginForm
 
+
 def register_request(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -15,6 +16,7 @@ def register_request(request):
     else:
         form = RegisterForm()
     return render(request, 'user_management/register.html', {'form': form})
+
 
 def login_request(request):
     if request.method == 'POST':
@@ -33,8 +35,22 @@ def login_request(request):
         form = LoginForm()
     return render(request, 'user_management/login.html', {'form': form})
 
+
 @login_required
 def logout_view(request):
     logout(request)
     messages.info(request, 'You have been logged out.')
     return redirect('homepage')  # Ensure this is a valid named URL
+
+
+@login_required
+def profile_update(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page or the same page to show success message
+            return redirect('user_management:profile_update')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+    return render(request, 'user_management/profile_update.html', {'form': form})
