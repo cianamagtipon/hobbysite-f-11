@@ -4,6 +4,8 @@ from django.views.generic.edit import CreateView, UpdateView
 from .models import Product, Transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from user_management.models import Profile
+from .forms import ProductCreateForm, ProductUpdateForm
+from django.urls import reverse_lazy
 
 
 class ProductTypeView(ListView):
@@ -27,23 +29,25 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
-    fields = ['name', 'product_type', 'description', 'price', 'stock', 'status']
-    
+    form_class = ProductCreateForm
+    template_name = 'product_create.html'
+
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        form.instance.owner = self.request.user.profile
         return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect to the product list view
+        return reverse_lazy('merchstore:list')
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    fields = ['name', 'product_type', 'description', 'price', 'stock']
-    
+    form_class = ProductUpdateForm
+    template_name = 'product_update.html'
+
     def form_valid(self, form):
-        form.instance.owner = self.request.user
-        if form.instance.stock == 0:
-            form.instance.status = 'Out of stock'
-        else:
-            form.instance.status = 'Available'
+        form.instance.owner = self.object.owner
         return super().form_valid(form)
 
 
