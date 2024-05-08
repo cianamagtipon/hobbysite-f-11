@@ -80,7 +80,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not self.test_func() and not request.user.is_superuser:
-            # Allow superusers to edit any product
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
 
