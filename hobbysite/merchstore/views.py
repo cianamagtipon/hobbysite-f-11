@@ -35,8 +35,9 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         form = TransactionForm(request.POST)
         if form.is_valid():
             product = self.object
-            if product.stock > 0:
-                product.stock -= 1
+            quantity = form.cleaned_data['amount']  # Get the amount from the form
+            if product.stock >= quantity:  # Check if there's enough stock
+                product.stock -= quantity
                 product.save()
                 if request.user.is_authenticated:
                     transaction = form.save(commit=False)
