@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from .models import Product, Transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from user_management.models import Profile
-from django.contrib.auth.decorators import login_required
+
 
 class ProductTypeView(ListView):
     model = Product
@@ -17,13 +17,13 @@ class ProductDetailView(DetailView):
     template_name = 'products.html'
     context_object_name = 'product'
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         related_products = self.object.product_type.products.all()
         context['related_products'] = related_products
         return context
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
@@ -32,6 +32,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
@@ -45,28 +46,22 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             form.instance.status = 'Available'
         return super().form_valid(form)
 
-@login_required
-def get_user_profile(user):
-    try:
-        return user.profile
-    except Profile.DoesNotExist:
-        profile = Profile.objects.create(user=user)
-        return profile
 
-class CartView(ListView):
+class CartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'cart.html'
     context_object_name = 'transactions'
 
     def get_queryset(self):
-        buyer_profile = get_user_profile(self.request.user)
+        buyer_profile = self.request.user.profile
         return Transaction.objects.filter(buyer=buyer_profile)
 
-class TransactionListView(ListView):
+
+class TransactionListView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'transaction_list.html'
     context_object_name = 'transactions'
 
     def get_queryset(self):
-        buyer_profile = get_user_profile(self.request.user)
+        buyer_profile = self.request.user.profile
         return Transaction.objects.filter(buyer=buyer_profile)
