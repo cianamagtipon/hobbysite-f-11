@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - My Site</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'homepage' %}">Home</a>
+        <a href="{% url 'commissions:commission_list' %}">Commissions</a>
+        <a href="{% url 'user_management:register' %}">Register</a>
+        <a href="{% url 'user_management:login' %}">Login</a>
+        <a href="{% url 'user_management:logout' %}">Logout</a>
+    </div>
+    <h1>Welcome to Our Site!</h1>
+    <p>This is your one-stop hub for navigating to various parts of the application.</p>
+</body>
+</html>
