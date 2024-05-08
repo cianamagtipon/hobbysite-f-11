@@ -5,7 +5,7 @@ from .views import (
     ProductCreateView,
     ProductUpdateView,
     CartView,
-    TransactionListView
+    TransactionListView,
 )
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
     path('item/add/', ProductCreateView.as_view(), name='create'),
     path('item/<int:pk>/edit/', ProductUpdateView.as_view(), name='update'),
     path('cart/', CartView.as_view(), name='cart'),
-    path('transactions/', TransactionListView.as_view(), name='transactions')
+    path('transactions/', TransactionListView.as_view(), name='transactions'),
 ]
 
 app_name = "merchstore"
