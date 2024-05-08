@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from user_management.models import Profile
 from .forms import ProductCreateForm, ProductUpdateForm
 from django.urls import reverse_lazy
+from .forms import TransactionForm
+from django.shortcuts import redirect
 
 
 class ProductTypeView(ListView):
@@ -14,17 +16,42 @@ class ProductTypeView(ListView):
     context_object_name = 'product'
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'products.html'
     context_object_name = 'product'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        related_products = self.object.product_type.products.all()
+        product = self.get_object()
+        related_products = product.product_type.products.all()
         context['related_products'] = related_products
+        context['transaction_form'] = TransactionForm()  # Add TransactionForm to context
+        context['can_edit'] = self.request.user == product.owner  # Check if the user can edit
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            # Get product and update stock
+            product = self.object
+            if product.stock > 0:
+                product.stock -= 1
+                product.save()
+                # Save transaction if user is authenticated
+                if request.user.is_authenticated:
+                    transaction = form.save(commit=False)
+                    transaction.product = product
+                    transaction.save()
+                    return redirect('cart')  # Redirect to cart if user is logged in
+                else:
+                    return redirect('login')  # Redirect to login if user is not logged in
+            else:
+                # Handle out of stock scenario
+                # You may want to display a message to the user
+                pass
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
