@@ -1,26 +1,20 @@
 from django.contrib import admin
-from .models import Commission, Comment
+from .models import Commission, Job, JobApplication
 
-
+@admin.register(Commission)
 class CommissionAdmin(admin.ModelAdmin):
-    model = Commission
-    
-    search_fields = ["title"]
-    list_display = ["title", "created_on", "updated_on"]
-    
-    fieldsets = [("Details", {"fields": [("title", "description"), "people_required"]})]
+    list_display = ['title', 'description', 'created_on', 'updated_on']
+    list_filter = ['created_on', 'updated_on']
+    search_fields = ['title', 'description']
 
+@admin.register(Job)
+class JobAdmin(admin.ModelAdmin):
+    list_display = ['commission', 'role', 'manpower_required', 'status']
+    list_filter = ['status', 'role']
+    search_fields = ['role', 'commission__title']
 
-class CommentAdmin(admin.ModelAdmin):
-    model = Comment
-
-    search_fields = ["commission"]
-    list_display = ["created_on"]
-    list_filter = ["created_on", "updated_on"]
-
-    fieldsets = [
-        ("Details", {"fields": [("entry"), "commission"]})]
-
-
-admin.site.register(Commission, CommissionAdmin)
-admin.site.register(Comment, CommentAdmin)
+@admin.register(JobApplication)
+class JobApplicationAdmin(admin.ModelAdmin):
+    list_display = ['job', 'applicant', 'status', 'applied_on']
+    list_filter = ['status', 'applied_on']
+    search_fields = ['job__role', 'applicant__username']
