@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 from time import timezone
 import datetime
@@ -23,8 +24,13 @@ class Thread(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # (optional) image
-    # author
+    author = models.ForeignKey(
+        Profile, 
+        on_delete=models.SET_NULL,
+        null=True, 
+        blank=True,
+        related_name='author'
+    )
     category = models.ForeignKey(
         ThreadCategory, 
         on_delete=models.SET_NULL,
@@ -53,7 +59,13 @@ class Comment(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # author
+    author = models.ForeignKey(
+        Profile, 
+        on_delete=models.SET_NULL,
+        null=True, 
+        blank=True,
+        related_name='author'
+    )
     thread = models.ForeignKey(
         Thread, 
         on_delete=models.CASCADE,
