@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 
 class ProductTypeView(ListView):
     model = Product
-    template_name = 'product_type.html'
+    template_name = 'home.html'
     context_object_name = 'product'
 
 
@@ -43,11 +43,26 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
     template_name = 'product_update.html'
+    success_url = reverse_lazy('merchstore:list')
 
     def form_valid(self, form):
         form.instance.owner = self.object.owner
         return super().form_valid(form)
 
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not self.test_func() and not request.user.is_superuser:
+            # Allow superusers to edit any product
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+
+    
 
 class CartView(LoginRequiredMixin, ListView):
     model = Transaction
