@@ -42,11 +42,12 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
                     transaction = form.save(commit=False)
                     transaction.product = product
                     transaction.save()
-                    return redirect('cart')
+                    # Redirect to cart page
+                    return redirect('merchstore:cart')
                 else:
-                    return redirect('login')
+                    return redirect('login')  # Redirect to login if user is not authenticated
             else:
-                pass
+                pass  # Handle case where product stock is 0
         return self.render_to_response(self.get_context_data(form=form))
 
 
