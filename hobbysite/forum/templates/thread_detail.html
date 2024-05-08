@@ -30,6 +30,25 @@
             </ul>
         </p>
         <a href="{{ thread.get_root_url }}" style="color:#485935">Threads List</a>
+        <p>
+            <h3 style="color:#8A9A5B">Comments</h3>
+            <ul>
+                {% for comment in thread.comments.all %}
+                <li>
+                    {{ comment.author }}: {{ comment.created_on }} <br/>
+                    {{ comment }}
+                </li>
+                {% endfor %}
+            </ul>
+        </p>
+        <p>
+            <form action="{{ thread.get_absolute_url }}" method="post">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button type="submit">Submit</button>
+            </form>
+        </p>
+        </form>
         </div>
     </body>
 </html>

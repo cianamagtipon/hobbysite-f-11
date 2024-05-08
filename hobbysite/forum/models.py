@@ -69,6 +69,9 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comments'
     )
+
+    def __str__(self):
+        return self.entry
     
     def get_root_url(self):
         return reverse('forum:threads')
