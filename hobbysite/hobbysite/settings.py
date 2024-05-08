@@ -50,11 +50,7 @@ INSTALLED_APPS = [
     'forum',
     'wiki',
     'merchstore',
-<<<<<<< HEAD
     'user_management',
-=======
-    'user_management'
->>>>>>> forum
 ]
 
 MIDDLEWARE = [
