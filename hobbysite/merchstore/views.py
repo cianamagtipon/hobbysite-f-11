@@ -52,10 +52,6 @@ class CartView(LoginRequiredMixin, ListView):
     template_name = 'cart.html'
     context_object_name = 'transactions'
 
-    # def get_queryset(self):
-    #     buyer_profile = Profile.objects.get(user=self.request.user.profile)
-    #     return Transaction.objects.filter(buyer=buyer_profile)
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         user = Profile.objects.get(user=self.request.user)
@@ -68,10 +64,6 @@ class TransactionListView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'transaction_list.html'
     context_object_name = 'transactions'
-
-    # def get_queryset(self):
-    #     buyer_profile = Profile.objects.get(user=self.request.user.profile)
-    #     return Transaction.objects.filter(buyer=buyer_profile)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
