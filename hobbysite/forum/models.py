@@ -28,8 +28,7 @@ class Thread(models.Model):
         Profile, 
         on_delete=models.SET_NULL,
         null=True, 
-        blank=True,
-        related_name='author'
+        blank=True
     )
     category = models.ForeignKey(
         ThreadCategory, 
@@ -63,8 +62,7 @@ class Comment(models.Model):
         Profile, 
         on_delete=models.SET_NULL,
         null=True, 
-        blank=True,
-        related_name='author'
+        blank=True
     )
     thread = models.ForeignKey(
         Thread, 
