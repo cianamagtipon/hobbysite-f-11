@@ -16,7 +16,34 @@
         </p>
         <h2 style="color:#8A9A5B">Entry</h2> 
         <p>{{ article.entry }}</p>
-        <a href="{% url 'wiki:article-list' %}" style="color:#485935">Article List</a>
+
+        {% if related_articles %}
+        <h2 style="color:#8A9A5B">Related Articles</h2>
+        <ul>
+            {% for related_article in related_articles %}
+            <li><a href="{% url 'article-detail' pk=related_article.pk %}">{{ related_article.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <h2 style="color:#8A9A5B">Comments</h2>
+        {% for comment in comments %}
+        <p>{{ comment.author }} - {{ comment.created_on }}</p>
+        <p>{{ comment.entry }}</p>
+        {% endfor %}
+        
+        {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+        {% endif %}
+        
+        {% if user.is_authenticated and user == article.author %}
+        <a href="{% url 'article-update' pk=article.pk %}">Edit Article</a>
+        {% endif %}
+        
+        <a href="{% url 'article-list' %}" style="color:#485935">Back to Article List</a>
     </div>
-    </body>
+</body>
 </html>
