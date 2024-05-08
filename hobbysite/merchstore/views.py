@@ -26,8 +26,8 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         product = self.get_object()
         related_products = product.product_type.products.all()
         context['related_products'] = related_products
-        context['transaction_form'] = TransactionForm()  # Add TransactionForm to context
-        context['can_edit'] = self.request.user == product.owner  # Check if the user can edit
+        context['transaction_form'] = TransactionForm()
+        context['can_edit'] = self.request.user == product.owner
         return context
 
     def post(self, request, *args, **kwargs):
