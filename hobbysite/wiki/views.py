@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.authors.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from .models import Article, ArticleCategory, Comment
-from .forms import CommentForm
+from .forms import CommentForm, ArticleForm
 
 def article_list_view(request):
     if request.user.is_authenticated:
@@ -10,11 +10,12 @@ def article_list_view(request):
     else:
         user_articles = None 
     
-    all_articles = Article.objects.exclude(author=request.user)
-    if request.user.is_authenticated
-    else Article.objects.all()
+    if request.user.is_authenticated:
+        all_articles = Article.objects.exclude(author=request.user)
+    else:
+        all_articles = Article.objects.all()
 
-    grouped_articles = Article.objects.values('category_name').annotate(count=Count'id')
+    grouped_articles = Article.objects.values('category__name').annotate(count=Count('id'))
 
     return render(request, 'article_list.html', {'grouped_articles': grouped_articles, 'user_articles': user_articles, 
                                                 'all_articles': all_articles})
@@ -22,19 +23,18 @@ def article_list_view(request):
 def article_detail_view(request, pk):
     article = get_object_or_404(Article, pk=pk)
 
-    related_articles = Article.objects.filter(category=article_category).excllude(pk=pk)[:2]
+    related_articles = Article.objects.filter(category=article.category).exclude(pk=pk)[:2]
     comments = Comment.objects.filter(article=article).order_by('-created_on')
 
-    if request.method =='POST': 
+    form = CommentForm()
+    if request.method == 'POST': 
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.article = article
             comment.author = request.user
             comment.save()
-            return redirect('article_detail.html', pk=pk)
-        else:
-            form = CommentForm()
+            return redirect('article_detail', pk=pk)
 
     return render(request, 'article_detail.html', {'article': article, 'related_articles': related_articles,
                                                     'comments': comments, 'form': form})
