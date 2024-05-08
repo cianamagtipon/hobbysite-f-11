@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transaction List</title>
+    <title>Home</title>
     <style>
         /* Style for navigation bar */
         nav {
@@ -50,15 +50,15 @@
         </ul>
     </nav>
     
-    <h1 style="color:#485935">Transaction List</h1>
-    {% if transactions %}
-        <ul>
-            {% for transaction in transactions %}
-                <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No transactions found.</p>
-    {% endif %}
+    <h1 style="color:#485935">Product List</h1>
+    <ul>
+        {% for product in product %}
+            <li>
+                <a href="{{ product.get_absolute_url }}" style="color:#8A9A5B">
+                    <b>{{ product.name }}</b>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

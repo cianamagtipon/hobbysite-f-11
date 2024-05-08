@@ -15,10 +15,11 @@
             list-style-type: none;
             padding: 0;
             margin: 0;
+            display: flex; /* Make the list items display in a flex container */
+            align-items: center; /* Align items vertically */
         }
         
         nav ul li {
-            display: inline;
             margin-right: 10px;
         }
         
@@ -26,16 +27,26 @@
             text-decoration: none;
             color: #485935;
         }
+
+        /* Position the last list item to the right */
+        nav ul li:last-child {
+            margin-left: auto;
+        }
     </style>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="{% url 'merchstore:list' %}">Home</a></li>
-            <li><a href="{% url 'merchstore:create' %}">Create Product</a></li>
-            <li><a href="{% url 'merchstore:cart' %}">Cart</a></li>
-            <li><a href="{% url 'merchstore:transactions' %}">Transactions</a></li>
-            <li><a href="{% url 'logout' %}">Log out</a></li>
+            <li style="margin-right: 20px;"><a href="{% url 'merchstore:list' %}">Home</a></li>
+            <li style="margin-right: 20px;"><a href="{% url 'merchstore:create' %}">Create Product</a></li>
+            <li style="margin-right: 20px;"><a href="{% url 'merchstore:cart' %}">Cart</a></li>
+            <li style="margin-right: 20px;"><a href="{% url 'merchstore:transactions' %}">Transactions</a></li>
+            <li style="margin-right: 20px;">
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
+                </form>
+            </li>
         </ul>
     </nav>
     
