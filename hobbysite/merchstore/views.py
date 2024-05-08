@@ -34,22 +34,18 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         self.object = self.get_object()
         form = TransactionForm(request.POST)
         if form.is_valid():
-            # Get product and update stock
             product = self.object
             if product.stock > 0:
                 product.stock -= 1
                 product.save()
-                # Save transaction if user is authenticated
                 if request.user.is_authenticated:
                     transaction = form.save(commit=False)
                     transaction.product = product
                     transaction.save()
-                    return redirect('cart')  # Redirect to cart if user is logged in
+                    return redirect('cart')
                 else:
-                    return redirect('login')  # Redirect to login if user is not logged in
+                    return redirect('login')
             else:
-                # Handle out of stock scenario
-                # You may want to display a message to the user
                 pass
         return self.render_to_response(self.get_context_data(form=form))
 
