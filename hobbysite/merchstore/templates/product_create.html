@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transaction List</title>
+    <title>Create Product</title>
     <style>
         /* Style for navigation bar */
         nav {
@@ -38,16 +38,11 @@
             <li><a href="{% url 'logout' %}">Log out</a></li>
         </ul>
     </nav>
-    
-    <h1 style="color:#485935">Transaction List</h1>
-    {% if transactions %}
-        <ul>
-            {% for transaction in transactions %}
-                <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No transactions found.</p>
-    {% endif %}
+    <h1 style="color:#485935">Create Product</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
 </body>
 </html>

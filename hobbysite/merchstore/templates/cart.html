@@ -1,16 +1,52 @@
-{% extends 'base.html' %}
-
-{% block title %}Cart{% endblock %}
-
-{% block content %}
-  <h2>Cart</h2>
-  {% if transactions %}
-    <ul>
-      {% for transaction in transactions %}
-        <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Your cart is empty.</p>
-  {% endif %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <style>
+        /* Style for navigation bar */
+        nav {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #485935;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'merchstore:list' %}">Home</a></li>
+            <li><a href="{% url 'merchstore:create' %}">Create Product</a></li>
+            <li><a href="{% url 'merchstore:cart' %}">Cart</a></li>
+            <li><a href="{% url 'merchstore:transactions' %}">Transactions</a></li>
+            <li><a href="{% url 'logout' %}">Log out</a></li>
+        </ul>
+    </nav>
+    <h1 style="color:#485935">Cart</h1>
+    {% if transactions %}
+        <ul>
+            {% for transaction in transactions %}
+                <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</body>
+</html>
