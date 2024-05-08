@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <h1 style="color:#485935">Commissions List</h1>
+    </head>
+    <body>
+        <ul>
+            {% for commission in commissions %}
+            <li>
+                <a href="{% url 'commissions:commission_detail' pk=commission.pk %}" style="color:#8A9A5B">
+                    <b>{{ commission.title }}</b>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
