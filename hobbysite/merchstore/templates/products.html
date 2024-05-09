@@ -54,8 +54,10 @@
     <a href="{% url 'merchstore:update' pk=product.pk %}">Edit</a>
     <div style="max-width:800px; text-align:justified">
         <p>
+            Owner: {{product.owner}}<br/>
             Product Type: {{product.product_type}} <br/>
             Description: {{ product.description }}
+
         </p>
         <p>Price: ₱{{ product.price }}</p>
         <p>Stock: {{ product.stock }}</p>
