@@ -1,30 +1,18 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home - My Site</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="navbar">
-        <a href="{% url 'homepage' %}">Home</a>
-        <a href="{% url 'commissions:commission_list' %}">Commissions</a>
-        <!-- Additional links visible only to logged-in users -->
-        {% if user.is_authenticated %}
-            <a href="{% url 'commissions:commission_add' %}">Create Commission</a>
-            <a href="{% url 'user_management:logout' %}">Logout</a>
-            <!-- Placeholder for other authenticated user app links -->
-        {% else %}
-            <a href="{% url 'user_management:login' %}">Login</a>
-            <a href="{% url 'user_management:register' %}">Register</a>
-        {% endif %}
-        <!-- Links accessible to everyone -->
-        <a href="/forum/">Forum</a>
-        <a href="/wiki/">Wiki</a>
-        <a href="/merchstore/">Merch Store</a>
-    </div>
-    <h1>Welcome to Our Site!</h1>
-    <p>This is your one-stop hub for navigating to various parts of the application.</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to HobbySite!</h1>
+<p>Your one-stop hub for all hobby-related activities.</p>
+<div>
+    <h2>Explore Our Sections</h2>
+    <ul>
+        <li><a href="{% url 'user_management:update_profile' %}">Profile</a></li>
+        <li><a href="{% url 'forum:index' %}">Forum</a></li>
+        <li><a href="{% url 'wiki:index' %}">Wiki</a></li>
+        <li><a href="{% url 'merchstore:index' %}">Merch Store</a></li>
+        <li><a href="{% url 'commissions:list' %}">Commissions</a></li>
+    </ul>
+</div>
+{% endblock %}

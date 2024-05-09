@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'forum',
     'wiki',
     'merchstore',
+    'user_management',
 
 ]
 
@@ -111,6 +112,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'homepage'
 
+AUTH_USER_MODEL = 'user_management.Profile'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

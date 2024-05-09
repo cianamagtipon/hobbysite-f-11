@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Site Name{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'user_management:update_profile' %}">Profile</a></li>
+                <li><a href="{% url 'forum:index' %}">Forum</a></li>
+                <li><a href="{% url 'wiki:index' %}">Wiki</a></li>
+                <li><a href="{% url 'merchstore:index' %}">Merch Store</a></li>
+                <li><a href="{% url 'commissions:list' %}">Commissions</a></li>
+                <!-- Add additional navigation links as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content unique to each page will go here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; {{ current_year }} Your Site Name. All rights reserved.</p>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
