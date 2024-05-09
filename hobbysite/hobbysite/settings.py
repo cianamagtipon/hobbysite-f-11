@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'forum',
     'wiki',
     'merchstore',
-    'user_management',  # your custom user app
+
 ]
 
 MIDDLEWARE = [
@@ -109,8 +109,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Ensure this directory e
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Custom user model
-AUTH_USER_MODEL = 'user_management.Profile'
-
-# Login redirect URL setting
 LOGIN_REDIRECT_URL = 'homepage'
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
