@@ -95,7 +95,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 class CartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'cart.html'
-    context_object_name = 'transactions'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -110,7 +109,6 @@ class CartView(LoginRequiredMixin, ListView):
 class TransactionListView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'transaction_list.html'
-    context_object_name = 'transactions'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
