@@ -4,21 +4,20 @@ from .models import Product, Transaction
 class ProductCreateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'product_type', 'description', 'price', 'stock', 'status']
-        widgets = {
-            'owner': forms.HiddenInput(),
-            'product_type': forms.Select(),
-            'status': forms.Select(choices=Product.STATUS_CHOICES),
-        }
+        fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['owner'].disabled = True
 
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'product_type', 'description', 'price', 'stock']
-        widgets = {
-            'owner': forms.HiddenInput(),
-            'product_type': forms.Select(),
-        }
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['owner'].disabled = True
 
     def clean(self):
         cleaned_data = super().clean()
