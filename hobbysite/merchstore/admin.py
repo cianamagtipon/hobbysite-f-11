@@ -17,6 +17,6 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = ()
     
     search_fields = ["name"]
-    list_display = ["name", "product_type", "price", "stock"]
+    list_display = ["name", "owner", "product_type", "price", "stock"]
 
-    fieldsets = [("Details", {"fields": [("name", "description", "price", "stock"), "product_type"]})]
+    fieldsets = [("Details", {"fields": [("name", "owner", "description", "price", "stock"), "product_type"]})]
