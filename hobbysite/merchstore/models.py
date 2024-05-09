@@ -29,7 +29,7 @@ class Product(models.Model):
     )
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField(default=0)
+    stock = models.PositiveIntegerField(default=0)
     STATUS_CHOICES = [
         ('Available', 'Available'),
         ('On sale', 'On sale'),
@@ -45,11 +45,26 @@ class Product(models.Model):
     
     class Meta:
         ordering = ['name']
-
+ 
 class Transaction(models.Model):
-    buyer = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    amount = models.IntegerField()
+    buyer = models.ForeignKey(
+        user_models.Profile, 
+        on_delete=models.SET_NULL, 
+        null=True,
+        related_name='buyer'
+    )
+    product = models.ForeignKey(
+        'Product', 
+        on_delete=models.SET_NULL, 
+        null=True,
+        related_name='purchased_product'
+    )
+    amount = models.PositiveIntegerField()
+    cart = "IN CART"
+    pay = "TO PAY"
+    ship = "TO SHIP"
+    receive = "TO RECEIVE"
+    delivered = "DELIVERED"
     STATUS_CHOICES = [
         ('On cart', 'On cart'),
         ('To Pay', 'To Pay'),
@@ -57,8 +72,8 @@ class Transaction(models.Model):
         ('To Receive', 'To Receive'),
         ('Delivered', 'Delivered')
     ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='On cart')
+    status = models.CharField(max_length=20, 
+                              choices=STATUS_CHOICES, 
+                              default='On cart'
+                              )
     created_on = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.product.name} - {self.buyer.display_name}"
