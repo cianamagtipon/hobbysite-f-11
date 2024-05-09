@@ -56,6 +56,11 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductCreateForm
     template_name = 'product_create.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['owner'] = Profile.objects.get(user=self.request.user)
+        return initial
+
     def form_valid(self, form):
         return super().form_valid(form)
 
@@ -95,8 +100,10 @@ class CartView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         user = Profile.objects.get(user=self.request.user)
-        items_bought = Product.objects.filter(owner=user)
+        items_bought = Transaction.objects.filter(buyer=user)
+        sellers = Profile.objects.all()
         ctx['bought'] = items_bought
+        ctx['all_sellers'] = sellers
         return ctx
 
 
@@ -109,5 +116,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
         ctx = super().get_context_data(**kwargs)
         user = Profile.objects.get(user=self.request.user)
         items_sold = Product.objects.filter(owner=user)
-        ctx['sold'] = items_sold
+        customer = Profile.objects.all()
+        ctx['all_transactions'] = items_sold
+        ctx['all_buyers'] = customer
         return ctx
