@@ -51,14 +51,21 @@
     </nav>
     
     <h1 style="color:#485935">Cart</h1>
-    {% if transactions %}
-        <ul>
-            {% for transaction in transactions %}
-                <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Your cart is empty.</p>
-    {% endif %}
+    {% for seller in all_seller %}
+        {%if seller.user != request.user %}
+            <li>Purchased from {{ seller.dispaly_name }}</li>
+            <ul>
+                {% for item in items_bought %}
+                    {% if item.product.owner == seller %}
+                    <li>Product: {{item.product.name}}</li>
+                    <li>Amount: {{item.amount}}</li>
+                    <li>Time: {{item.created_on}}</li>
+                    <li>Status: {{item.transaction_status}}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+
 </body>
 </html>

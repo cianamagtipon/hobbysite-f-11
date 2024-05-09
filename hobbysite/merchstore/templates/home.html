@@ -49,8 +49,8 @@
             </li>
         </ul>
     </nav>
-    
-    <h1 style="color:#485935">Product List</h1>
+    <h1 style="color:#485935">Welcome {{request.user.username}}!</h1>
+    <h2 style="color:#485935">Product List</h2>
     <ul>
         {% for product in product %}
             <li>
