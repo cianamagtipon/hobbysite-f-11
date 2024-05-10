@@ -99,9 +99,9 @@ class CartView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         user = Profile.objects.get(user=self.request.user)
-        items_bought = Transaction.objects.filter(buyer=user)
+        purchased = Transaction.objects.filter(buyer=user)
         sellers = Profile.objects.all()
-        ctx['bought'] = items_bought
+        ctx['purchased_items'] = purchased
         ctx['all_sellers'] = sellers
         return ctx
 

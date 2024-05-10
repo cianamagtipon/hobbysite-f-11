@@ -53,9 +53,10 @@
     <h1 style="color:#485935">Cart</h1>
     {% for seller in all_sellers %}
         {%if seller.user != request.user %}
-                <h3>Purchased from {{ seller.dispaly_name }}</h3>
+            <!-- <li class="list-group list-group-flush"> -->
+                <h3>Purchased from {{ seller.user }}</h3>
                 <ul>
-                    {% for item in items_bought %}
+                    {% for item in purchased_items %}
                         {% if item.product.owner == seller %}
                             <li>Product: {{item.product.name}}</li>
                             <li>Amount: {{item.amount}}</li>
@@ -64,7 +65,7 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-            </li>
+            <!-- </li> -->
         {% endif %}
     {% endfor %}
 
