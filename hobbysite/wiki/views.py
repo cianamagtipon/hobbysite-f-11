@@ -4,7 +4,7 @@ from django.db.models import Count
 from .models import Article, ArticleCategory, Comment
 from .forms import CommentForm, ArticleForm
 
-def ArticleView(request:)
+def ArticleView(request):
     if request.user.is_authenticated:
         user_articles = Article.objects.filter(author=request.user)
     else:
@@ -36,8 +36,10 @@ def ArticleDetailView(request, pk):
             comment.save()
             return redirect('article_detail', pk=pk)
 
-    return render(request, 'article_detail.html', {'article': article, 'related_articles': related_articles,
-                                                    'comments': comments, 'form': form})
+    return render(request, 'article_detail.html', {'article': article,
+                                                   'related_articles': related_articles, 
+                                                   'comments': comments, 
+                                                   'form': form})
 
 def ArticleCreateView(request):
     if request.method == 'POST':
