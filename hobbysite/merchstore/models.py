@@ -60,7 +60,7 @@ class Transaction(models.Model):
         related_name='purchased_product'
     )
     amount = models.PositiveIntegerField()
-    cart = "IN CART"
+    cart = "ON CART"
     pay = "TO PAY"
     ship = "TO SHIP"
     receive = "TO RECEIVE"
