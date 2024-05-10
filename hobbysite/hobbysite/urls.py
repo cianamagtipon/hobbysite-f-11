@@ -1,14 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.contrib.auth import views as auth_views
+from user_management.views import register
+from django.urls import reverse_lazy
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('forum/', include('forum.urls', namespace='forum')),
-    path('wiki/', include('wiki.urls', namespace='wiki')),
-    path('merchstore/', include('merchstore.urls', namespace='merchstore')),
+    path('login/', auth_views.LoginView.as_view(template_name='user_management/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page=reverse_lazy('homepage')), name='logout'),
+    path('register/', register, name='register'),
+    path('user_management/', include('user_management.urls', namespace='user_management')),
     path('commissions/', include('commissions.urls', namespace='commissions')),
-    path('user_management/', include('user_management.urls', namespace='user_management')),  # Includes user_management with its dedicated namespace
     path('', views.homepage, name='homepage'),  # Home page route
-    path('accounts/', include('django.contrib.auth.urls')),  # Django built-in authentication URLs
 ]

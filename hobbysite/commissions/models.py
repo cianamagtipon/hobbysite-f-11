@@ -9,6 +9,7 @@ class Commission(models.Model):
         ('Discontinued', 'Discontinued'),
     ]
 
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='commissions')
     title = models.CharField(max_length=255)
     description = models.TextField()
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Open')

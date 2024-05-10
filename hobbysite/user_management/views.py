@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import ProfileForm, SignUpForm
+from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from .models import Profile 
+from .forms import ProfileForm, SignUpForm
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
@@ -19,8 +20,8 @@ def register(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Optionally log the user in right away
-            return redirect('user_management:update_profile')  # Redirect to the profile update page
+            login(request, user)  # Log the user in directly after registration
+            return redirect('homepage')  # Redirect to homepage or other appropriate page
     else:
         form = SignUpForm()
     return render(request, 'user_management/register.html', {'form': form})

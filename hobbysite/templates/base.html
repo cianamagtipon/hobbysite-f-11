@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +12,23 @@
         <nav>
             <ul>
                 <li><a href="{% url 'homepage' %}">Home</a></li>
-                <li><a href="{% url 'user_management:update_profile' %}">Profile</a></li>
-                <li><a href="{% url 'forum:index' %}">Forum</a></li>
-                <li><a href="{% url 'wiki:index' %}">Wiki</a></li>
-                <li><a href="{% url 'merchstore:index' %}">Merch Store</a></li>
-                <li><a href="{% url 'commissions:list' %}">Commissions</a></li>
-                <!-- Add additional navigation links as needed -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'user_management:update_profile' %}">Profile</a></li>
+                    <li><form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#">Commissions</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'commissions:list' %}">List Commissions</a>
+                        <a href="{% url 'commissions:add' %}">Create Commission</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -28,7 +40,7 @@
     </main>
 
     <footer>
-        <p>&copy; {{ current_year }} Your Site Name. All rights reserved.</p>
+        <p>&copy; {% now "Y" %} Your Site Name. All rights reserved.</p>
     </footer>
 
     <script src="{% static 'js/main.js' %}"></script>
