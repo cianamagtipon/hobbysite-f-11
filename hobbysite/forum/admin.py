@@ -25,7 +25,7 @@ class ThreadAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     model = Comment
 
-    list_display = ["thread", "created_on", "updated_on"]
+    list_display = ["entry", "created_on", "updated_on"]
     list_filter = ["created_on", "updated_on"]
 
     fieldsets = [

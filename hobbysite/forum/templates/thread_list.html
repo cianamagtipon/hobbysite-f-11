@@ -43,5 +43,20 @@
             </li>
             {% endfor %}
         </ul>
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG OUT</button>
+                </p>
+            </form>
+        {% else %}
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG IN</button>
+                </p>
+            </form>
+        {% endif %}
     </body>
 </html>
