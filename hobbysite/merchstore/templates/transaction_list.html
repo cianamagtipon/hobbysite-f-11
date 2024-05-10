@@ -50,22 +50,20 @@
         </ul>
     </nav>
     
-    <h1 style="color:#485935">Transaction List</h1>
-    {% for buyer in all_buyers %}
-        {%if buyer.user != request.user %}
-                <h3>Purchased by {{ buyer.user }}</h3>
-                <ul>
-                    {% for item in all_transactions %}
-                        {% if item.buyer == buyer %}
-                            <li>Product: {{item.product.name}}</li>
-                            <li>Amount: {{item.amount}}</li>
-                            <li>Time: {{item.created_on}}</li>
-                            <li>Status: {{item.status}}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endif %}
+    <h1 style="color:#485935">Transactions</h1>
+    {% regroup all_transactions|dictsort:"product.buyer.display_name" by product.buyer as categorized_purchased_items %}
+    {% for items in categorized_purchased_items %}
+        <h2>Buyer: {{items.grouper}}</h2>
+        {% for item in items.list %}
+        <ul>
+            <li>Product: {{item.product.name}}</li>
+            <li>Amount: {{item.amount}}</li>
+            <li>Time: {{item.created_on}}</li>
+            <li>Status: {{item.status}}</li>
+            <li>Seller: {{item.product.owner}}</li>
+        </ul>
+        {% endfor %}
     {% endfor %}
+
 </body>
 </html>

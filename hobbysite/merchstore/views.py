@@ -111,9 +111,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        user = Profile.objects.get(user=self.request.user)
-        items_sold = Product.objects.filter(owner=user)
-        customer = Profile.objects.all()
+        user = self.request.user
+        items_sold = Product.objects.filter(owner=user.profile)
         ctx['all_transactions'] = items_sold
-        ctx['all_buyers'] = customer
         return ctx
