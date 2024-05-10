@@ -42,6 +42,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
                 if request.user.is_authenticated:
                     transaction = form.save(commit=False)
                     transaction.product = product
+                    transaction.buyer = request.user.profile
                     transaction.save()
                     return redirect('merchstore:cart')
                 else:
@@ -98,11 +99,9 @@ class CartView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        user = Profile.objects.get(user=self.request.user)
-        purchased = Transaction.objects.filter(buyer=user)
-        sellers = Profile.objects.all()
+        user = self.request.user
+        purchased = Transaction.objects.filter(buyer=user.profile)
         ctx['purchased_items'] = purchased
-        ctx['all_sellers'] = sellers
         return ctx
 
 

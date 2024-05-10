@@ -51,22 +51,18 @@
     </nav>
     
     <h1 style="color:#485935">Cart</h1>
-    {% for seller in all_sellers %}
-        {%if seller.user != request.user %}
-            <!-- <li class="list-group list-group-flush"> -->
-                <h3>Purchased from {{ seller.user }}</h3>
-                <ul>
-                    {% for item in purchased_items %}
-                        {% if item.product.owner == seller %}
-                            <li>Product: {{item.product.name}}</li>
-                            <li>Amount: {{item.amount}}</li>
-                            <li>Time: {{item.created_on}}</li>
-                            <li>Status: {{item.status}}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            <!-- </li> -->
-        {% endif %}
+    {% regroup purchased_items|dictsort:"product.owner.display_name" by product.owner as categorized_purchased_items %}
+    {% for items in categorized_purchased_items %}
+        <h2>Seller: {{items.grouper}}</h2>
+        {% for item in items.list %}
+        <ul>
+            <li>Product: {{item.product.name}}</li>
+            <li>Amount: {{item.amount}}</li>
+            <li>Time: {{item.created_on}}</li>
+            <li>Status: {{item.status}}</li>
+            <li>Seller: {{item.product.owner}}</li>
+        </ul>
+        {% endfor %}
     {% endfor %}
 
 </body>
