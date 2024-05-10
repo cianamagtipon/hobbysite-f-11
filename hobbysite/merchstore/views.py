@@ -7,6 +7,7 @@ from user_management.models import Profile
 from .forms import ProductCreateForm, ProductUpdateForm
 from django.urls import reverse_lazy
 from .forms import TransactionForm
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 
 
@@ -37,6 +38,8 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
             product = self.object
             quantity = form.cleaned_data['amount']
             if product.stock >= quantity:
+                if request.user == product.owner.user:  # Check if current user is the owner
+                    return HttpResponseForbidden("BRO YOU OWN THIS.")
                 product.stock -= quantity
                 product.save()
                 if request.user.is_authenticated:
@@ -85,9 +88,9 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return self.handle_no_permission()
+            return HttpResponseForbidden("BRO YOU DON'T OWN THIS.")
         if not self.test_func() and not request.user.is_superuser:
-            return self.handle_no_permission()
+            return HttpResponseForbidden("BRO YOU DON'T OWN THIS.")
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -113,5 +116,6 @@ class TransactionListView(LoginRequiredMixin, ListView):
         ctx = super().get_context_data(**kwargs)
         user = self.request.user
         items_sold = Product.objects.filter(owner=user.profile)
-        ctx['all_transactions'] = items_sold
+        transactions = Transaction.objects.filter(product__in=items_sold)
+        ctx['all_transactions'] = transactions
         return ctx

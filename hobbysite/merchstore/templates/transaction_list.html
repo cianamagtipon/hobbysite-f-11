@@ -51,19 +51,20 @@
     </nav>
     
     <h1 style="color:#485935">Transactions</h1>
-    {% regroup all_transactions|dictsort:"product.buyer.display_name" by product.buyer as categorized_purchased_items %}
+    {% regroup all_transactions|dictsort:"buyer.display_name" by buyer as categorized_purchased_items %}
+    {{all_transactions}}
     {% for items in categorized_purchased_items %}
-        <h2>Buyer: {{items.grouper}}</h2>
+        <h2>Buyer: {{ items.grouper }}</h2>
         {% for item in items.list %}
         <ul>
-            <li>Product: {{item.product.name}}</li>
-            <li>Amount: {{item.amount}}</li>
-            <li>Time: {{item.created_on}}</li>
-            <li>Status: {{item.status}}</li>
-            <li>Seller: {{item.product.owner}}</li>
+            <li>Product: {{ item.product.name }}</li>
+            <li>Amount: {{ item.amount }}</li>
+            <li>Time: {{ item.created_on }}</li>
+            <li>Status: {{ item.status }}</li>
         </ul>
         {% endfor %}
     {% endfor %}
+    
 
 </body>
 </html>
