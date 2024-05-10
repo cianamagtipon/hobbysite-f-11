@@ -44,6 +44,9 @@
             {% endfor %}
         </ul>
         {% if request.user.is_authenticated %}
+            <p>
+                <a href='{% url "forum:thread-add" %}' style="color:#485935">New Thread</a>
+            </p>
             <form action="{% url 'logout' %}" method="POST">
                 {% csrf_token %}
                 <p>

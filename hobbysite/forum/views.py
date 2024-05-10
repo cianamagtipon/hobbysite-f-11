@@ -39,7 +39,10 @@ class ThreadDetailView(DetailView):
         thread = self.get_object()
         other_threads = Thread.objects.filter(category=thread.category)
         form = self.form_class()
-        return render(request, self.template_name, {"thread": thread, "other_threads": other_threads, "form": form})    
+        return render(request, self.template_name, 
+                      {"thread": thread, 
+                       "other_threads": other_threads, 
+                       "form": form})    
     
     def post(self, request, *args, **kwargs):
         thread = self.get_object()

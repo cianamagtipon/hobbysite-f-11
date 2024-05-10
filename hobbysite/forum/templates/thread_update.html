@@ -9,7 +9,7 @@
                 <form action="{{ thread.get_absolute_url }}" method="POST">
                     {% csrf_token %}
                     {{ form.as_div }}
-                    <button type="submit">Save</button>
+                    <button type="submit">SAVE</button>
                 </form>
                 <form action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}

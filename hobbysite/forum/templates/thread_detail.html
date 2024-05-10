@@ -19,6 +19,11 @@
             <h3 style="color:#8A9A5B">Thread Entry</h3>
             {{ thread.entry }}
         </p>
+        {% if request.user.is_authenticated %}
+        <p>
+            <a href='{% url "forum:thread-edit" pk=thread.id %}' style="color:#485935">Update Thread</a>
+        </p>
+        {% endif %}
         <p>
             <h3 style="color:#8A9A5B">Threads Under The Same Category</h3>
             <ul>
