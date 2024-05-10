@@ -53,7 +53,7 @@
     <h1 style="color:#485935">Transaction List</h1>
     {% for buyer in all_buyers %}
         {%if buyer.user != request.user %}
-                <h3>Purchased from {{ buyer.dispaly_name }}</h3>
+                <h3>Purchased by {{ buyer.user }}</h3>
                 <ul>
                     {% for item in all_transactions %}
                         {% if item.buyer == buyer %}
