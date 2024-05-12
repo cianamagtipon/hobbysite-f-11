@@ -25,6 +25,7 @@ def article_detail_view(request, pk):
     article = get_object_or_404(Article, pk=pk)
 
     related_articles = Article.objects.filter(category=article.category).exclude(pk=pk)[:2]
+    article_image = article.article_image
     comments = Comment.objects.filter(article=article).order_by('-created_on')
 
     form = CommentForm()
