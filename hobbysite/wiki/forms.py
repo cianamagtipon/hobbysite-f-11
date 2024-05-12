@@ -5,7 +5,7 @@ from .models import Article, Comment
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ["title", "entry", "category"]
+        fields = ["title", "entry", "category", "article_image"]
         
 class CommentForm(forms.ModelForm):
     class Meta:
