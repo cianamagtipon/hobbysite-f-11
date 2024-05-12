@@ -2,24 +2,54 @@
 <html>
 <head>
     <title>Article List</title>
+    <h1 style="color:#485935">Wiki Article List</h1>
 </head>
 <body>
-    <h1 style="color:#485935">Article List</h1>
-    {% for category in grouped_articles %}
-        <h2>{{ category.category_name }}</h2>
-        <ul>
-            {% for article in category.article_set.all %}
+    {% regroup user_articles|dictsort:"category.name" by category as user_articles_by_category %}
+    {% regroup all_articles|dictsort:"category.name" by category as all_articles_by_category %}
+
+    <h2 style="color:#8A9A5B">Your Articles</h2>
+    <ul>
+        {% for category in user_articles_by_category %}
+            {% for article in category.list %}
                 <li>
-                    <a href="{% url 'wiki:article-detail' pk=article.pk %}" style="color:#8A9A5B">
-                        <b>{{ article.title }}</b>
+                    <a href="{{ article.get_absolute_url }}" style="color:#485935">
+                        {{ article.title }}
                     </a>
                 </li>
             {% endfor %}
-        </ul>
-    {% endfor %}
-
-    {% if user.is_authenticated %}
-        <a href="{% url 'wiki:article-create' %}">Create Article</a>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h2 style="color:#8A9A5B">All Articles</h2>
+    <ul>
+        {% for category in all_articles_by_category %}
+            {% for article in category.list %}
+                <li>
+                    <a href="{{ article.get_absolute_url }}" style="color:#485935">
+                        {{ article.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    {% if request.user.is_authenticated %}
+        <p>
+            <a href='{% url "wiki:article-create" %}' style="color:#485935">New Article</a>
+        </p>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <p>
+                <button type="submit">LOG OUT</button>
+            </p>
+        </form>
+    {% else %}
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <p>
+                <button type="submit">LOG IN</button>
+            </p>
+        </form>
     {% endif %}
 </body>
 </html>
