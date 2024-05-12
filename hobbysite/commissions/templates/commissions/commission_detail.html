@@ -3,23 +3,25 @@
 {% block title %}{{ commission.title }}{% endblock %}
 
 {% block content %}
-<div style="max-width:800px; text-align:justified">
+<div style="max-width:800px;">
     <h1>{{ commission.title }}</h1>
-    <p>Created On: {{ commission.created_on|date:"Y-m-d H:i" }} <br/>
-       Updated On: {{ commission.updated_on|date:"Y-m-d H:i" }}</p>
     <p>Description: {{ commission.description }}</p>
-    <p>Status: {{ commission.get_status_display }}</p>
-
-    {% if user == commission.author %}
-        <a href="{% url 'commissions:edit' pk=commission.pk %}">Edit Commission</a>
-    {% endif %}
-
-    <h2>Jobs Needed</h2>
+    <p>Created on: {{ commission.created_on|date:"Y-m-d H:i" }}</p>
+    <h2>Jobs</h2>
     <ul>
-    {% for job in commission.jobs.all %}
-        <li>{{ job.role }} - Required: {{ job.manpower_required }} - Status: {{ job.get_status_display }}
-            {% if job.status == 'Open' %}
-                <a href="{% url 'commissions:apply_job' job.id %}" class="btn btn-small">Apply</a>
+    {% for job in jobs %}
+        <li>
+            {{ job.role }} - Required: {{ job.manpower_required }} - Status: {{ job.get_status_display }}
+            {% if user.is_authenticated and job.status == 'Open' %}
+                {% if not job.applications.filter(applicant=user, status='Accepted').exists %}
+                    <form method="post" action="{% url 'commissions:apply_job' job.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="job_id" value="{{ job.id }}">
+                        <button type="submit" {% if job.applications.filter(status='Accepted').count >= job.manpower_required %}disabled{% endif %}>Apply</button>
+                    </form>
+                {% else %}
+                    <span>You've applied</span>
+                {% endif %}
             {% endif %}
         </li>
     {% endfor %}
