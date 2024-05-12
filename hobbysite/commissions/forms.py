@@ -1,6 +1,7 @@
 from django import forms
 from .models import Commission, Job
 
+
 class CommissionForm(forms.ModelForm):
     class Meta:
         model = Commission
@@ -10,6 +11,7 @@ class CommissionForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 40, 'rows': 10}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
 class CommissionUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -24,6 +26,7 @@ class CommissionUpdateForm(forms.ModelForm):
                 # Optionally make the status field read-only if all jobs are full
                 self.fields['status'].disabled = True
 
+
     class Meta:
         model = Commission
         fields = ['title', 'description', 'status']
@@ -31,6 +34,7 @@ class CommissionUpdateForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 40, 'rows': 10}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
     def clean_status(self):
         # Ensure that the status changes are valid based on job statuses

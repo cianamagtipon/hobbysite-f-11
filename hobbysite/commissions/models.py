@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+
 class Commission(models.Model):
     STATUS_CHOICES = [
         ('Open', 'Open'),
@@ -22,6 +23,7 @@ class Commission(models.Model):
     class Meta:
         ordering = ["created_on"]
 
+
 class Job(models.Model):
     STATUS_CHOICES = [
         ('Open', 'Open'),
@@ -38,6 +40,7 @@ class Job(models.Model):
 
     class Meta:
         ordering = ["status", "-manpower_required", "role"]
+
 
 class JobApplication(models.Model):
     STATUS_CHOICES = [

@@ -4,10 +4,12 @@ from django.urls import reverse
 from .forms import CommissionForm, CommissionUpdateForm
 from .models import Commission, Job, JobApplication
 
+
 @login_required
 def commission_list(request):
     commissions = Commission.objects.order_by('-created_on').all()
     return render(request, 'commissions/commission_list.html', {'commissions': commissions})
+
 
 @login_required
 def commission_detail(request, pk):
@@ -17,6 +19,7 @@ def commission_detail(request, pk):
         'commission': commission,
         'jobs': jobs
     })
+
 
 @login_required
 def commission_create(request):
@@ -31,6 +34,7 @@ def commission_create(request):
         form = CommissionForm()
     return render(request, 'commissions/commission_form.html', {'form': form})
 
+
 @login_required
 def commission_update(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
@@ -42,6 +46,7 @@ def commission_update(request, pk):
     else:
         form = CommissionUpdateForm(instance=commission)
     return render(request, 'commissions/commission_update_form.html', {'form': form, 'commission': commission})
+
 
 def commission_home(request):
     return render(request, 'commissions_home.html')
