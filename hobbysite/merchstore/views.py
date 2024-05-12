@@ -13,7 +13,7 @@ from django.shortcuts import redirect
 
 class ProductTypeView(ListView):
     model = Product
-    template_name = 'home.html'
+    template_name = 'product_list.html'
     context_object_name = 'product'
 
 
