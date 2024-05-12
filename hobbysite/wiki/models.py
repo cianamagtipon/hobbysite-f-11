@@ -37,6 +37,7 @@ class Article(models.Model):
         blank=True,
         related_name='articles'
     )
+    article_image = ImageField(upload_to='article_images/', null=True, blank=True)
     
     def __str__(self):
         return self.title
