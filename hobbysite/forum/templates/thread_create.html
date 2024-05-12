@@ -1,8 +1,54 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <title>Create Thread</title>
+        <style>
+            /* Style for navigation bar */
+            nav {
+                background-color: #f2f2f2;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            
+            nav ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex; /* Make the list items display in a flex container */
+                align-items: center; /* Align items vertically */
+            }
+            
+            nav ul li {
+                margin-right: 10px;
+            }
+            
+            nav ul li a {
+                text-decoration: none;
+                color: #485935;
+            }
+    
+            /* Position the last list item to the right */
+            nav ul li:last-child {
+                margin-left: auto;
+            }
+        </style>
     </head>
     <body>
+        <nav>
+            <ul>
+                <li style="margin-right: 20px;"><a href="{% url 'homepage' %}">Home</a></li>
+                <li style="margin-right: 20px;"><a href="{% url 'forum:threads' %}">Threads</a></li>
+                <li style="margin-right: 20px;"><a href="{% url 'forum:thread-add' %}">Create Thread</a></li>
+                <li style="margin-right: 20px;">
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
         {% if request.user.is_authenticated %}
             <form method="POST">
                 <h1 style="color:#485935">Hello {{ request.user.profile }}! Make a new thread!</h1>
