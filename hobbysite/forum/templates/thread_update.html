@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        {% if request.user.is_authenticated and request.user.profile == thread.author %}
+            <form method="POST">
+                <h1 style="color:#485935">Hello {{ request.user.profile }}! Update your thread!</h1>
+                <form action="{{ thread.get_absolute_url }}" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_div }}
+                    <button type="submit">SAVE</button>
+                </form>
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <p>
+                        <button type="submit">LOG OUT</button>
+                    </p>
+                </form>
+            </form>
+        {% else %}
+            <h1 style="color:#485935">You can't edit other people's threads!</h1>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG IN</button>
+                </p>
+            </form>
+        {% endif %}
+        </form>
+    </body>
+</html>

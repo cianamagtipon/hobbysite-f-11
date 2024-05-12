@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Forum List</title>
+        <h1 style="color:#485935">Forum Thread List</h1>
+    </head>
+    <body>
+        {% regroup user_threads|dictsort:"category.name" by category as user_threads_by_category %}
+        {% regroup all_threads|dictsort:"category.name" by category as all_threads_by_category %}
+
+        <ul>
+            {% for category in user_threads_by_category %}
+            <li>
+                <b style="color:#8A9A5B">{{ category.grouper }}</b>
+                </a>
+                <ul>
+                    {% for thread in category.list %}
+                    <li>
+                        <a href="{{ thread.get_absolute_url }}" style="color:#485935">
+                            {{ thread.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        <hr>
+        <ul>
+            {% for category in all_threads_by_category %}
+            <li>
+                <b style="color:#8A9A5B">{{ category.grouper }}</b>
+                </a>
+                <ul>
+                    {% for thread in category.list %}
+                    <li>
+                        <a href="{{ thread.get_absolute_url }}" style="color:#485935">
+                            {{ thread.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if request.user.is_authenticated %}
+            <p>
+                <a href='{% url "forum:thread-add" %}' style="color:#485935">New Thread</a>
+            </p>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG OUT</button>
+                </p>
+            </form>
+        {% else %}
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG IN</button>
+                </p>
+            </form>
+        {% endif %}
+    </body>
+</html>

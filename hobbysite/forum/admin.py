@@ -14,22 +14,22 @@ class ThreadCategoryAdmin(admin.ModelAdmin):
 class ThreadAdmin(admin.ModelAdmin):
     model = Thread
 
-    search_fields = ["title"]
+    search_fields = ["title", "author"]
     list_display = ["title", "category", "created_on", "updated_on"]
     list_filter = ["created_on", "updated_on"]
 
     fieldsets = [
-        ("Details", {"fields": [("title", "entry"), "category"]})]
+        ("Details", {"fields": [("title", "entry"), "author", "category"]})]
 
 
 class CommentAdmin(admin.ModelAdmin):
     model = Comment
 
-    list_display = ["thread", "created_on", "updated_on"]
+    list_display = ["entry", "created_on", "updated_on"]
     list_filter = ["created_on", "updated_on"]
 
     fieldsets = [
-        ("Details", {"fields": [("entry"), "thread"]})]
+        ("Details", {"fields": [("entry"), "thread", "author"]})]
 
 
 admin.site.register(ThreadCategory, ThreadCategoryAdmin)
