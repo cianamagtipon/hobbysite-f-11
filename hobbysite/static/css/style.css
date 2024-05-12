@@ -1,0 +1,40 @@
+body, html {
+    padding-top: 50px;  /* Adjust this value based on the actual height of your navbar */
+    margin: 0;
+    font-family: Arial, sans-serif; /* Example font, use whatever you prefer */
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav ul li {
+    padding: 10px;
+}
+
+.nav-link, nav ul li a, button.nav-link {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-size: 16px; /* Match the font size with other navbar items */
+    cursor: pointer;
+}
+
+.nav-link:hover, nav ul li a:hover {
+    text-decoration: underline;
+}
