@@ -1,12 +1,17 @@
 from django.contrib import admin
 from .models import Commission, Job, JobApplication
 
+class JobInline(admin.TabularInline):
+    model = Job
+    extra = 1  
+
 
 @admin.register(Commission)
 class CommissionAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'created_on', 'updated_on']
     list_filter = ['created_on', 'updated_on']
     search_fields = ['title', 'description']
+    inlines = [JobInline]  
 
 
 @admin.register(Job)
