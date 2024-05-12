@@ -64,12 +64,6 @@
                     {{ form.as_div }}
                     <button type="submit">SUBMIT</button>
                 </form>
-                <form action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                    <p>
-                        <button type="submit">LOG OUT</button>
-                    </p>
-                </form>
             </form>
         {% endif %}
         </form>
