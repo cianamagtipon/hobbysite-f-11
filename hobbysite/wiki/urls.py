@@ -1,12 +1,12 @@
 from django.urls import path
-from . import views
-from .views import ArticleForm
+from .views import ArticleListView, ArticleDetailView, ArticleCreateView, ArticleUpdateView
 
-urlpatterns = [
-    path('articles/', views.article_list_view, name='article-list'),
-    path('article/<int:pk>/', views.article_detail_view, name='article-detail'),
-    path('article/create/', views.article_create_view, name='article-create'),
-    path('article/<int:pk>/update/', views.article_update_view, name='article-update'),
+urlpatterns=[
+    path('', ArticleListView.as_view(), name='index'),
+    path('article/create/', ArticleCreateView.as_view(), name='article-create'),
+    path('article/<int:pk>/edit/', ArticleUpdateView.as_view(), name='article-edit'),
+    path('articles/', ArticleListView.as_view(), name='articles'),
+    path('articles/<int:pk>/', ArticleDetailView.as_view(), name='article-detail')
 ]
 
-app_name = 'wiki'
+app_name='wiki'
