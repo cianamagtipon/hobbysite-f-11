@@ -10,6 +10,26 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
+def index(request):
+    return HttpResponse('Welcome to Wiki!')
+
+
+class ArticleListView(ListView):
+    model = Article
+    template_name = 'article_list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        if user.is_authenticated:
+            context['user_articles'] = Article.objects.filter(author=user.profile)
+            context['all_articles'] = Article.objects.exclude(author=user.profile)
+        else:
+            context['user_articles'] = None
+            context['all_articles'] = Article.objects.all()
+        return context
+
+
 class ArticleDetailView(DetailView):
     model = Article
     form_class = CommentForm
@@ -17,11 +37,11 @@ class ArticleDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         article = self.get_object()
-        related_articles = Article.objects.filter(category=article.category)
+        other_articles = Article.objects.filter(category=article.category)
         form = self.form_class()
         return render(request, self.template_name, 
                       {"article": article, 
-                       "related_articles": related_articles, 
+                       "other_articles": other_articles, 
                        "form": form})    
     
     def post(self, request, *args, **kwargs):
@@ -53,8 +73,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.author = self.request.user.profile
-        return super().form_valid(form)   
-
+        return super().form_valid(form)    
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
