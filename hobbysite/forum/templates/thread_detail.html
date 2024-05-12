@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Forum Detail</title>
+        <h1 style="color:#485935">Forum Thread</h1>
+    </head>
+    <body>
+        <div style="max-width:800px; text-align:justified">
+        <h2 style="color:#8A9A5B">{{ thread.title }}</h2>
+        <p>
+            Thread Category: {{ thread.category.name }} <br/>
+            Category Description: {{ thread.category.description }}
+        </p>
+        <p>
+            Created on: {{ thread.created_on }} <br/>
+            Updated on: {{ thread.updated_on }}
+        </p>
+        <p>
+            <h3 style="color:#8A9A5B">Thread Entry</h3>
+            {{ thread.entry }}
+        </p>
+        {% if request.user.is_authenticated %}
+        <p>
+            <a href='{% url "forum:thread-edit" pk=thread.id %}' style="color:#485935">Update Thread</a>
+        </p>
+        {% endif %}
+        <p>
+            <h3 style="color:#8A9A5B">Threads Under The Same Category</h3>
+            <ul>
+                {% for other_thread in other_threads %}
+                <li>
+                    <a href="{{ other_thread.get_absolute_url }}" style="color:#485935">
+                        {{ other_thread.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </p>
+        <a href="{{ thread.get_root_url }}" style="color:#485935">Threads List</a>
+        <p>
+            <h3 style="color:#8A9A5B">Comments</h3>
+            <ul>
+                {% for comment in thread.comments.all %}
+                <li>
+                    {{ comment.author }}: {{ comment.created_on }} <br/>
+                    {{ comment }}
+                </li>
+                {% endfor %}
+            </ul>
+        </p>
+        {% if request.user.is_authenticated %}
+            <p>
+                <form action="{{ thread.get_absolute_url }}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_div }}
+                    <button type="submit">Submit</button>
+                </form>
+            </p>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG OUT</button>
+                </p>
+            </form>
+        {% else %}
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG IN</button>
+                </p>
+            </form>
+        {% endif %}
+        </div>
+    </body>
+</html>

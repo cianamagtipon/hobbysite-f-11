@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 from time import timezone
 import datetime
@@ -23,8 +24,12 @@ class Thread(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # (optional) image
-    # author
+    author = models.ForeignKey(
+        Profile, 
+        on_delete=models.SET_NULL,
+        null=True, 
+        blank=True
+    )
     category = models.ForeignKey(
         ThreadCategory, 
         on_delete=models.SET_NULL,
@@ -40,7 +45,7 @@ class Thread(models.Model):
         return reverse('forum:threads')
 
     def get_absolute_url(self):
-        return reverse('forum:forum-detail', args=[self.pk])
+        return reverse('forum:thread-detail', args=[self.pk])
     
     
     class Meta:
@@ -53,18 +58,26 @@ class Comment(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # author
+    author = models.ForeignKey(
+        Profile, 
+        on_delete=models.SET_NULL,
+        null=True, 
+        blank=True
+    )
     thread = models.ForeignKey(
         Thread, 
         on_delete=models.CASCADE,
         related_name='comments'
     )
+
+    def __str__(self):
+        return self.entry
     
     def get_root_url(self):
         return reverse('forum:threads')
 
     def get_absolute_url(self):
-        return reverse('forum:forum-detail', args=[self.pk])
+        return reverse('forum:thread-detail', args=[self.pk])
     
     
     class Meta:
