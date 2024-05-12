@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to HobbySite!</h1>
+<p>Your one-stop hub for all hobby-related activities.</p>
+<div>
+    <h2>Explore Our Sections</h2>
+    <ul>
+        <li><a href="{% url 'user_management:update_profile' %}">Profile</a></li>
+        <li><a href="{% url 'commissions:list' %}">Commissions</a></li>
+    </ul>
+</div>
+{% endblock %}
