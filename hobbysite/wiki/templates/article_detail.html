@@ -1,76 +1,65 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Wiki Detail</title>
-    <h1 style="color:#485935">Article Detail</h1>
-</head>
-<body>
-<div style="max-width:800px; text-align:justified">
-    <h2 style="color:#8A9A5B">{{ article.title }}</h2>
-    <p>
-        Article Category: {{ article.category.name }} <br/>
-        Category Description: {{ article.category.description }}
-    </p>
-    <p>
-        Created on: {{ article.created_on }} <br/>
-        Updated on: {{ article.updated_on }}
-    </p>
-    <p>
-        <h3 style="color:#8A9A5B">Article Entry</h3>
-        {{ article.entry }}
-    </p>
-    {% if request.user.is_authenticated %}
+    <head>
+        <title>Article Detail</title>
+        <h1 style="color:#485935">Wiki Article</h1>
+    </head>
+    <body>
+        <div style="max-width:800px; text-align:justified">
+        <h2 style="color:#8A9A5B">{{ article.title }}</h2>
         <p>
-            <a href='{% url "article-edit" pk=article.pk %}' style="color:#485935">Update Article</a>
+            Article Category: {{ article.category.name }} <br/>
+            Category Description: {{ article.category.description }}
         </p>
-    {% endif %}
-    <p>
-        <h3 style="color:#8A9A5B">Articles Under The Same Category</h3>
-        <ul>
-            {% for related_article in related_articles %}
+        <p>
+            Created on: {{ article.created_on }} <br/>
+            Updated on: {{ article.updated_on }}
+        </p>
+        <p>
+            <h3 style="color:#8A9A5B">Article Entry</h3>
+            {{ article.entry }}
+        </p>
+        {% if request.user.is_authenticated %}
+        <p>
+            <a href='{% url "wiki:article-edit" pk=article.id %}' style="color:#485935">Update Article</a>
+        </p>
+        {% endif %}
+        <p>
+            <h3 style="color:#8A9A5B">Suggested Articles From The Same Category</h3>
+            <ul>
+                {% for article in other_articles %}
                 <li>
-                    <a href="{{ related_article.get_absolute_url }}" style="color:#485935">
-                        {{ related_article.title }}
+                    <a href="{{ article.get_absolute_url }}" style="color:#485935">
+                        {{ article.title }}
                     </a>
                 </li>
-            {% endfor %}
-        </ul>
-    </p>
-    <a href="{% url 'articles' %}" style="color:#485935">Articles List</a>
-    <p>
-        <h3 style="color:#8A9A5B">Comments</h3>
-        <ul>
-            {% for comment in article.comments.all %}
-                <li>
-                    {{ comment.author }}: {{ comment.created_on }} <br/>
-                    {{ comment.entry }}
-                </li>
-            {% endfor %}
-        </ul>
-    </p>
-    {% if request.user.is_authenticated %}
-        <p>
-            <form action="{{ article.get_absolute_url }}" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Submit</button>
-            </form>
+                {% endfor %}
+            </ul>
         </p>
-        <form action="{% url 'logout' %}" method="POST">
-            {% csrf_token %}
+        <a href="{{ article.get_root_url }}" style="color:#485935">Articles List</a>
+        <p>
+            <h3 style="color:#8A9A5B">Comments</h3>
+        </p>
+        {% if request.user.is_authenticated %}
             <p>
-                <button type="submit">LOG OUT</button>
+                <form action="{{ article.get_absolute_url }}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_div }}
+                    <button type="submit">Submit</button>
+                </form>
             </p>
-        </form>
-    {% else %}
-        <form action="{% url 'login' %}" method="POST">
-            {% csrf_token %}
-            <p>
-                <button type="submit">LOG IN</button>
-            </p>
-        </form>
-    {% endif %}
-</div>
-</body>
+        {% endif %}
+        <p>
+            <ul>
+                {% for comment in article.comments.all %}
+                <li>
+                    {{ comment.article_author }}: {{ comment.created_on }} <br/>
+                    {{ comment }}
+                </li>
+                {% endfor %}
+            </ul>
+        </p>
+        </div>
+    </body>
 </html>

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .forms import ArticleForm, CommentForm
-from .models import Article, Comment
+from wiki.forms import ArticleForm, CommentForm
+from wiki.models import Article, Comment
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -49,16 +49,16 @@ class ArticleDetailView(DetailView):
         form = self.form_class(request.POST)
         user = self.request.user
         if user.is_authenticated:
-            author = user.profile
+            article_author = user.profile
         else:
-            author = None
+            article_author = None
 
         if form.is_valid():
-            comment = Comment()
-            comment.article = article
-            comment.author = author
-            comment.entry = form.cleaned_data.get('entry')
-            comment.save()
+            article_comment = Comment()
+            article_comment.article = article
+            article_comment.article_author = article_author
+            article_comment.entry = form.cleaned_data.get('entry')
+            article_comment.save()
         return HttpResponseRedirect(self.request.path)
 
 

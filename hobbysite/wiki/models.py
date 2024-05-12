@@ -59,7 +59,8 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
-        Profile, 
+        Profile,
+        related_name='article_author',
         on_delete=models.SET_NULL,
         null=True, 
         blank=True
