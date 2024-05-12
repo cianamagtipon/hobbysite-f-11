@@ -1,67 +1,55 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count
-from .models import Article, ArticleCategory, Comment
-from .forms import CommentForm, ArticleForm
 
-def article_list_view(request):
-    if request.user.is_authenticated:
-        user_articles = Article.objects.filter(author=request.user)
-    else:
-        user_articles = None 
+
+class ArticleDetailView(DetailView):
+    model = Article
+    form_class = CommentForm
+    template_name = 'article_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        article = self.get_object()
+        related_articles = Article.objects.filter(category=article.category)
+        form = self.form_class()
+        return render(request, self.template_name, 
+                      {"article": article, 
+                       "related_articles": related_articles, 
+                       "form": form})    
     
-    if request.user.is_authenticated:
-        all_articles = Article.objects.exclude(author=request.user)
-    else:
-        all_articles = Article.objects.all()
+    def post(self, request, *args, **kwargs):
+        article = self.get_object()
+        form = self.form_class(request.POST)
+        user = self.request.user
+        if user.is_authenticated:
+            author = user.profile
+        else:
+            author = None
 
-    grouped_articles = Article.objects.values('category__name').annotate(count=Count('id'))
-
-    return render(request, 'article_list.html', {'grouped_articles': grouped_articles, 
-                                                 'user_articles': user_articles, 
-                                                'all_articles': all_articles})
-
-def article_detail_view(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-
-    related_articles = Article.objects.filter(category=article.category).exclude(pk=pk)[:2]
-    article_image = article.article_image
-    comments = Comment.objects.filter(article=article).order_by('-created_on')
-
-    form = CommentForm()
-    if request.method == 'POST': 
-        form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
+            comment = Comment()
             comment.article = article
-            comment.author = request.user
+            comment.author = author
+            comment.entry = form.cleaned_data.get('entry')
             comment.save()
-            return redirect('article_detail', pk=pk)
+        return HttpResponseRedirect(self.request.path)
 
-    return render(request, 'article_detail.html', {'article': article,
-                                                   'related_articles': related_articles, 
-                                                   'comments': comments, 
-                                                   'form': form})
 
-def article_create_view(request):
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES)
-        if form.is_valid():
-            article = form.save(commit=False)
-            article.author = request.user
-            article.save()
-            return redirect('article_detail', pk=article.pk)
-    else:
-        form = ArticleForm()
-    return render(request, 'article_create.html', {'form': form})
+class ArticleCreateView(LoginRequiredMixin, CreateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = "article_create.html"
+    
+    def get_success_url(self):
+        return reverse_lazy("wiki:articles")
 
-def article_update_view(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES, instance=article)
-        if form.is_valid():
-            form.save()
-            return redirect('article_detail', pk=pk)
-    else:
-        form = ArticleForm(instance=article)
-    return render(request, 'article_update.html', {'form': form})
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.author = self.request.user.profile
+        return super().form_valid(form)   
+
+
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = "article_update.html"
+    
+    def get_success_url(self):
+        return reverse_lazy("wiki:articles")
