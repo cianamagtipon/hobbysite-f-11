@@ -8,5 +8,5 @@ urlpatterns=[
     path('wiki/', include('wiki.urls', namespace="wiki")),
     path('merchstore/', include('merchstore.urls', namespace="merchstore")),
     path('commissions/', include('commissions.urls', namespace="commissions")),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('', include('django.contrib.auth.urls'))
 ]
