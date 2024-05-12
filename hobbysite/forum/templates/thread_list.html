@@ -40,10 +40,17 @@
                 <li style="margin-right: 20px;"><a href="{% url 'forum:threads' %}">Threads</a></li>
                 <li style="margin-right: 20px;"><a href="{% url 'forum:thread-add' %}">Create Thread</a></li>
                 <li style="margin-right: 20px;">
-                    <form action="{% url 'logout' %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
-                    </form>
+                    {% if user.is_authenticated %}
+                        <li><form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
+                        </form></li>
+                    {% else %}
+                        <li><form action="{% url 'login' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log in</button>
+                        </form></li>
+                    {% endif %}
                 </li>
             </ul>
         </nav>
