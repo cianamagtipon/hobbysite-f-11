@@ -5,7 +5,7 @@
 </head>
 <body>
     {% if request.user.is_authenticated and request.user.profile == article.author %}
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <h1 style="color:#485935">Hello {{ request.user.profile }}! Update your article!</h1>
             <form action="{{ article.get_absolute_url }}" method="POST">
                 {% csrf_token %}
