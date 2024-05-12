@@ -17,7 +17,8 @@ def article_list_view(request):
 
     grouped_articles = Article.objects.values('category__name').annotate(count=Count('id'))
 
-    return render(request, 'article_list.html', {'grouped_articles': grouped_articles, 'user_articles': user_articles, 
+    return render(request, 'article_list.html', {'grouped_articles': grouped_articles, 
+                                                 'user_articles': user_articles, 
                                                 'all_articles': all_articles})
 
 def article_detail_view(request, pk):
