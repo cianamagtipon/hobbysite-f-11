@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Product List</title>
     <style>
         /* Style for navigation bar */
         nav {
@@ -37,7 +37,8 @@
 <body>
     <nav>
         <ul>
-            <li style="margin-right: 20px;"><a href="{% url 'merchstore:list' %}">Home</a></li>
+            <li style="margin-right: 20px;"><a href="{% url 'homepage' %}">Home</a></li>
+            <li style="margin-right: 20px;"><a href="{% url 'merchstore:list' %}">Products</a></li>
             <li style="margin-right: 20px;"><a href="{% url 'merchstore:create' %}">Create Product</a></li>
             <li style="margin-right: 20px;"><a href="{% url 'merchstore:cart' %}">Cart</a></li>
             <li style="margin-right: 20px;"><a href="{% url 'merchstore:transactions' %}">Transactions</a></li>
