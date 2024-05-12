@@ -16,6 +16,9 @@
             Created on: {{ article.created_on }} <br/>
             Updated on: {{ article.updated_on }}
         </p>
+        {% if article.article_image %}
+            <img src="{{ article.article_image.url }}" alt="{{ article.title }}" style="max-width: 100%;">
+        {% endif %}
         <p>
             <h3 style="color:#8A9A5B">Article Entry</h3>
             {{ article.entry }}
