@@ -1,25 +1,45 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .forms import CommissionForm, CommissionUpdateForm, JobFormSet
+from .forms import CommissionForm, CommissionUpdateForm, JobForm, inlineformset_factory
 from .models import Commission, Job, JobApplication
 
-@login_required
 def commission_list(request):
-    commissions = Commission.objects.order_by('-created_on').all()
-    return render(request, 'commissions/comission_list.html', {'commissions': commissions})
+    commissions = Commission.objects.order_by('-status', '-created_on').all()
+    user_commissions = None
+    applied_commissions = None
 
+    if request.user.is_authenticated:
+        user_commissions = commissions.filter(author=request.user)
+        job_applications = JobApplication.objects.filter(applicant=request.user).select_related('job')
+        applied_commissions = {application.job.commission for application in job_applications}
+
+    context = {
+        'commissions': commissions,
+        'user_commissions': user_commissions,
+        'applied_commissions': applied_commissions
+    }
+    return render(request, 'commissions/commission_list.html', context)
 
 @login_required
 def commission_detail(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
     jobs = commission.jobs.order_by('status', '-manpower_required', 'role').all()
+    jobs_data = []
 
-    if request.method == 'POST' and 'job_id' in request.POST:
-        job_id = request.POST['job_id']
+    for job in jobs:
+        has_applied = JobApplication.objects.filter(job=job, applicant=request.user).exists()
+        is_full = job.applications.filter(status='Accepted').count() >= job.manpower_required
+        jobs_data.append({
+            'job': job,
+            'has_applied': has_applied,
+            'is_full': is_full
+        })
+
+    if request.method == 'POST':
+        job_id = request.POST.get('job_id')
         job = get_object_or_404(Job, id=job_id)
-        # Check if job is open and not full, and user has not already applied
-        if job.status == 'Open' and not JobApplication.objects.filter(job=job, applicant=request.user).exists():
+        if not JobApplication.objects.filter(job=job, applicant=request.user).exists():
             if job.applications.filter(status='Accepted').count() < job.manpower_required:
                 job_application = JobApplication(job=job, applicant=request.user, status='Pending')
                 job_application.save()
@@ -28,12 +48,10 @@ def commission_detail(request, pk):
             else:
                 messages.error(request, 'This job is already full.')
         else:
-            messages.error(request, 'You cannot apply to this job.')
+            messages.error(request, 'You have already applied for this job.')
 
-    return render(request, 'commissions/commission_detail.html', {
-        'commission': commission,
-        'jobs': jobs
-    })
+    context = {'commission': commission, 'jobs_data': jobs_data}
+    return render(request, 'commissions/commission_detail.html', context)
 
 
 @login_required
@@ -62,6 +80,7 @@ def commission_create(request):
         formset = JobFormSet()
     return render(request, 'commissions/commission_form.html', {'form': form, 'formset': formset})
 
+
 @login_required
 def commission_update(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
@@ -76,6 +95,7 @@ def commission_update(request, pk):
         form = CommissionUpdateForm(instance=commission)
         formset = JobFormSet(instance=commission)
     return render(request, 'commissions/commission_update_form.html', {'form': form, 'formset': formset, 'commission': commission})
+
 
 def commission_home(request):
     return render(request, 'commissions_home.html')

@@ -9,15 +9,15 @@
     <p>Created on: {{ commission.created_on|date:"Y-m-d H:i" }}</p>
     <h2>Jobs</h2>
     <ul>
-    {% for job in jobs %}
+    {% for job_data in jobs_data %}
         <li>
-            {{ job.role }} - Required: {{ job.manpower_required }} - Status: {{ job.get_status_display }}
-            {% if user.is_authenticated and job.status == 'Open' %}
-                {% if not job.applications.filter(applicant=user, status='Accepted').exists %}
-                    <form method="post" action="{% url 'commissions:apply_job' job.id %}">
+            {{ job_data.job.role }} - Required: {{ job_data.job.manpower_required }} - Status: {{ job_data.job.get_status_display }}
+            {% if user.is_authenticated and job_data.job.status == 'Open' %}
+                {% if not job_data.has_applied %}
+                    <form method="post">
                         {% csrf_token %}
-                        <input type="hidden" name="job_id" value="{{ job.id }}">
-                        <button type="submit" {% if job.applications.filter(status='Accepted').count >= job.manpower_required %}disabled{% endif %}>Apply</button>
+                        <input type="hidden" name="job_id" value="{{ job_data.job.id }}">
+                        <button type="submit" {% if job_data.is_full %}disabled{% endif %}>Apply</button>
                     </form>
                 {% else %}
                     <span>You've applied</span>
