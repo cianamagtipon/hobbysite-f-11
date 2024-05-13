@@ -2,6 +2,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from .models import Commission, Job
 
+
 class CommissionForm(forms.ModelForm):
     class Meta:
         model = Commission
@@ -32,6 +33,7 @@ JobFormSet = inlineformset_factory(
     extra=1,     # Number of extra forms to display
     can_delete=True  # Allow the deletion of jobs
 )
+
 
 class CommissionUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

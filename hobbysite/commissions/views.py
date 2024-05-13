@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .forms import CommissionForm, CommissionUpdateForm, JobForm, inlineformset_factory
 from .models import Commission, Job, JobApplication
+from django.contrib import messages
+
 
 def commission_list(request):
     commissions = Commission.objects.order_by('-status', '-created_on').all()
@@ -20,6 +22,7 @@ def commission_list(request):
         'applied_commissions': applied_commissions
     }
     return render(request, 'commissions/commission_list.html', context)
+
 
 def commission_detail(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
@@ -63,7 +66,7 @@ def commission_create(request):
         form=JobForm,
         fields=['role', 'manpower_required', 'status'],
         extra=1,
-        can_delete=True
+        can_delete=False  # Changed from True to False
     )
 
     if request.method == 'POST':
