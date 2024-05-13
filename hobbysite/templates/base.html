@@ -2,37 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% comment %} <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Your Site Name{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"> {% endcomment %}
-{% comment %} </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'homepage' %}">Home</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'user_management:profile' %}">Profile</a></li>
-                    <li><form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
-                {% endif %}
-                <li class="dropdown">
-                    <a href="#">Forum</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'forum:threads' %}">Thread List</a>
-                        <a href="{% url 'forum:thread-add' %}">Create new Thread</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </header> {% endcomment %}
-
     <style>
         /* Style for navigation bar */
         nav {
