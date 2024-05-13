@@ -21,26 +21,27 @@ def commission_list(request):
     }
     return render(request, 'commissions/commission_list.html', context)
 
-@login_required
 def commission_detail(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
     jobs = commission.jobs.order_by('status', '-manpower_required', 'role').all()
     jobs_data = []
 
     for job in jobs:
-        has_applied = JobApplication.objects.filter(job=job, applicant=request.user).exists()
+        has_applied = False
         is_full = job.applications.filter(status='Accepted').count() >= job.manpower_required
+        if request.user.is_authenticated:
+            has_applied = JobApplication.objects.filter(job=job, applicant=request.user).exists()
         jobs_data.append({
             'job': job,
             'has_applied': has_applied,
             'is_full': is_full
         })
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         job_id = request.POST.get('job_id')
         job = get_object_or_404(Job, id=job_id)
         if not JobApplication.objects.filter(job=job, applicant=request.user).exists():
-            if job.applications.filter(status='Accepted').count() < job.manpower_required:
+            if not is_full:
                 job_application = JobApplication(job=job, applicant=request.user, status='Pending')
                 job_application.save()
                 messages.success(request, 'Application submitted successfully!')
