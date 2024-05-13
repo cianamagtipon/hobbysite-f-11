@@ -1,61 +1,37 @@
-{% comment %} {% load static %} {% endcomment %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        /* Style for navigation bar */
-        nav {
-            background-color: #f2f2f2;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex; /* Make the list items display in a flex container */
-            align-items: center; /* Align items vertically */
-        }
-        
-        nav ul li {
-            margin-right: 10px;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: #485935;
-        }
-
-        /* Position the last list item to the right */
-        nav ul li:last-child {
-            margin-left: auto;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Site Name{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li style="margin-right: 20px;"><a href="{% url 'homepage' %}">Home</a></li>
-            {% comment %} <li style="margin-right: 20px;"><a href="{% url 'merchstore:cart' %}">Commission</a></li> {% endcomment %}
-            <li style="margin-right: 20px;"><a href="{% url 'forum:threads' %}">Forum</a></li>
-            <li style="margin-right: 20px;"><a href="{% url 'merchstore:list' %}">Merchstore</a></li>
-            {% comment %} <li style="margin-right: 20px;"><a href="{% url 'merchstore:transactions' %}">Wiki</a></li> {% endcomment %}
-            <li style="margin-right: 20px;">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
                 {% if user.is_authenticated %}
+                    <li><a href="{% url 'user_management:update_profile' %}">Profile</a></li>
                     <li><form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
+                        <button type="submit">Logout</button>
                     </form></li>
                 {% else %}
-                    <li><form action="{% url 'login' %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log in</button>
-                    </form></li>
+                    <li><a href="{% url 'login' %}?next={% url 'user_management:update_profile' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
-            </li>
-        </ul>
-    </nav>
+                <li class="dropdown">
+                    <a href="#">Commissions</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'commissions:list' %}">List Commissions</a>
+                        <a href="{% url 'commissions:add' %}">Create Commission</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
     <main>
         {% block content %}
@@ -67,6 +43,6 @@
         <p>&copy; {% now "Y" %} Your Site Name. All rights reserved.</p>
     </footer>
 
-    {% comment %} <script src="{% static 'js/main.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

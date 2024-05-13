@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=63)),
                 ('short_bio', models.TextField(validators=[django.core.validators.MinLengthValidator(255)])),
-                ('email_address', models.EmailField(max_length=254)),
+                ('email', models.EmailField(max_length=254)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
