@@ -1,6 +1,6 @@
 # forum/urls.py
 from django.urls import path
-from .views import index, ThreadListView, ThreadDetailView, ThreadCreateView, ThreadUpdateView
+from .views import ThreadListView, ThreadDetailView, ThreadCreateView, ThreadUpdateView
 
 app_name = 'forum'
 
