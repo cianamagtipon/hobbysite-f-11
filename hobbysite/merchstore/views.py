@@ -14,7 +14,20 @@ from django.shortcuts import redirect
 class ProductTypeView(ListView):
     model = Product
     template_name = 'product_list.html'
-    context_object_name = 'product'
+    context_object_name = 'all_products'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            return queryset.exclude(owner=self.request.user.profile)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            user_products = Product.objects.filter(owner=self.request.user.profile)
+            context['user_products'] = user_products
+        return context
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):

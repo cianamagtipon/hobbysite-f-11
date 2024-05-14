@@ -37,35 +37,46 @@
 <body>
     <nav>
         <ul>
-            <li style="margin-right: 20px;"><a href="{% url 'homepage' %}">Home</a></li>
-            <li style="margin-right: 20px;"><a href="{% url 'merchstore:list' %}">Products</a></li>
-            <li style="margin-right: 20px;"><a href="{% url 'merchstore:create' %}">Create Product</a></li>
-            <li style="margin-right: 20px;"><a href="{% url 'merchstore:cart' %}">Cart</a></li>
-            <li style="margin-right: 20px;"><a href="{% url 'merchstore:transactions' %}">Transactions</a></li>
-            <li style="margin-right: 20px;">
-                {% if user.is_authenticated %}
-                    <li><form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
-                    </form></li>
-                {% else %}
-                    <li><form action="{% url 'login' %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log in</button>
-                    </form></li>
-                {% endif %}
-            </li>
+            <li><a href="{% url 'homepage' %}">Home</a></li>
+            <li><a href="{% url 'merchstore:list' %}">Products</a></li>
+            <li><a href="{% url 'merchstore:create' %}">Create Product</a></li>
+            <li><a href="{% url 'merchstore:cart' %}">Cart</a></li>
+            <li><a href="{% url 'merchstore:transactions' %}">Transactions</a></li>
+            {% if user.is_authenticated %}
+                <li><form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
+                </form></li>
+            {% else %}
+                <li><a href="{% url 'login' %}" style="color: #485935;">Log in</a></li>
+            {% endif %}
         </ul>
     </nav>
-    <h1 style="color:#485935">Welcome {{request.user.username}}!</h1>
-    <h2 style="color:#485935">Product List</h2>
+    <h1 style="color:#485935">Welcome {{ user.username }}!</h1>
+    <h2 style="color:#485935">User Products</h2>
     <ul>
-        {% for product in product %}
+        {% if user_products %}
+            {% for product in user_products %}
+                <li>
+                    <a href="{{ product.get_absolute_url }}" style="color:#8A9A5B">
+                        <b>{{ product.name }}</b>
+                    </a> - Your Product
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>No products posted by you.</p>
+        {% endif %}
+    </ul>
+    <h2 style="color:#485935">All Products</h2>
+    <ul>
+        {% for product in all_products %}
             <li>
                 <a href="{{ product.get_absolute_url }}" style="color:#8A9A5B">
                     <b>{{ product.name }}</b>
                 </a>
             </li>
+        {% empty %}
+            <li>No products available.</li>
         {% endfor %}
     </ul>
 </body>

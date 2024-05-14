@@ -5,9 +5,9 @@ from .models import Profile
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = "__all__" # Specify fields to be included in the form
+        fields = ['display_name', 'email']  # Specify which fields should be included in the form
 
 class SignUpForm(UserCreationForm):
     class Meta:
         model = Profile
-        fields = ('username', 'display_name', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'display_name', 'password1', 'password2')
