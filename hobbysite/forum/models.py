@@ -1,10 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import Profile
-
-from time import timezone
-import datetime
-
+from django.conf import settings
 
 class ThreadCategory(models.Model):
     name = models.CharField(max_length=225)
@@ -18,25 +14,13 @@ class ThreadCategory(models.Model):
         verbose_name = "Thread Category"
         verbose_name_plural = "Thread Categories"
 
-
 class Thread(models.Model):
     title = models.CharField(max_length=225)
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(
-        Profile, 
-        on_delete=models.SET_NULL,
-        null=True, 
-        blank=True
-    )
-    category = models.ForeignKey(
-        ThreadCategory, 
-        on_delete=models.SET_NULL,
-        null=True, 
-        blank=True,
-        related_name='threads'
-    )
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='forum_threads', on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(ThreadCategory, related_name='threads', on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
         return self.title
@@ -47,28 +31,17 @@ class Thread(models.Model):
     def get_absolute_url(self):
         return reverse('forum:thread-detail', args=[self.pk])
     
-    
     class Meta:
         ordering = ["-created_on"]
         verbose_name = "Thread"
         verbose_name_plural = "Threads"
-        
-        
+
 class Comment(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(
-        Profile, 
-        on_delete=models.SET_NULL,
-        null=True, 
-        blank=True
-    )
-    thread = models.ForeignKey(
-        Thread, 
-        on_delete=models.CASCADE,
-        related_name='comments'
-    )
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='forum_comments', on_delete=models.SET_NULL, null=True, blank=True)
+    thread = models.ForeignKey(Thread, related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.entry
@@ -78,7 +51,6 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('forum:thread-detail', args=[self.pk])
-    
     
     class Meta:
         ordering = ["created_on"]
