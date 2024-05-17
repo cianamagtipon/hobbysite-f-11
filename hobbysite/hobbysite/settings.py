@@ -20,10 +20,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uiscqbeg#h3^3f)0*x=9vv6=tz-(qxgkft9qd+4ga4xx_c$^(='
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-uiscqbeg#h3^3f)0*x=9vv6=tz-(qxgkft9qd+4ga4xx_c$^(=')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'wiki',
     'merchstore',
     'user_management',
-
 ]
 
 MIDDLEWARE = [
@@ -76,8 +75,12 @@ WSGI_APPLICATION = 'hobbysite.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'csci40',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -100,17 +103,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 
-
 TIME_ZONE = 'Asia/Manila'
 
 USE_I18N = True
+
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Ensure this directory exists
-
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -124,4 +126,3 @@ AUTH_USER_MODEL = 'user_management.Profile'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-

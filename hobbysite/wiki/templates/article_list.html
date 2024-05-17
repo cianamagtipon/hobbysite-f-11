@@ -5,6 +5,10 @@
 </head>
 <body>
     <h1>Article List</h1>
+    <!-- Only show create link to logged-in users -->
+    {% if user.is_authenticated %}
+    <p><a href="{% url 'wiki:article-add' %}">Create New Article</a></p>
+    {% endif %}
     <h2>Your Articles</h2>
     <ul>
         {% for article in user_articles %}
