@@ -1,19 +1,20 @@
-from .models import Profile
-from .forms import ProfileForm, SignUpForm
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login
+from .models import Profile 
+from .forms import ProfileForm, SignUpForm
 
-
-class UpdateView(LoginRequiredMixin, UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
-    template_name = "profile.html"
-    
+    template_name = "user_management/profile_update.html"
+    success_url = reverse_lazy('user_management:update_profile')
+
     def get_object(self):
-        return Profile.objects.get(user=self.request.user)
-    
+        return self.request.user  # Directly return the logged-in user
+
 def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)

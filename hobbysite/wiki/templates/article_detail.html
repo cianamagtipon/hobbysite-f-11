@@ -2,21 +2,72 @@
 <html>
     <head>
         <title>{{ article.title }}</title>
+        <style>
+            nav {
+                background-color: #f2f2f2;
+                padding: 10px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                list-style-type: none;
+            }
+            nav a {
+                text-decoration: none;
+                color: #485935;
+                margin-right: 10px;
+            }
+        </style>
     </head>
     <body>
+        <nav>
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'wiki:article-list' %}">Articles</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'wiki:article-add' %}">Add Article</a>
+            {% endif %}
+        </nav>
+
         <div style="max-width:800px; text-align:justified">
-        <h1 style="color:#485935">{{ article.title }}</h1>
-        <p>
-            Category: {{ article.category.name }} <br/>
-            Category Description: {{ article.category.description }}
-        </p>
-        <p>
-            Created On: {{ article.created_on }} <br/>
-            Updated On: {{ article.updated_on }}
-        </p>
-        <h2 style="color:#8A9A5B">Entry</h2> 
-        <p>{{ article.entry }}</p>
-        <a href="{% url 'wiki:article-list' %}" style="color:#485935">Article List</a>
-    </div>
+            <h1 style="color:#485935">{{ article.title }}</h1>
+            <p>
+                Category: {{ article.category.name }} <br/>
+                Category Description: {{ article.category.description }}
+            </p>
+            <p>
+                Created On: {{ article.created_on }} <br/>
+                Updated On: {{ article.updated_on }}
+            </p>
+            <h2 style="color:#8A9A5B">Entry</h2> 
+            <p>{{ article.entry }}</p>
+
+            {% if article.author == request.user %}
+                <a href="{% url 'wiki:article-edit' article.pk %}">Edit Article</a>
+            {% endif %}
+
+            <!-- Display related articles -->
+            <h3>Related Articles</h3>
+            <ul>
+                {% for related_article in related_articles %}
+                <li><a href="{% url 'wiki:article-detail' related_article.pk %}">{{ related_article.title }}</a></li>
+                {% empty %}
+                <li>No related articles found.</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Comment form and display -->
+            <h3>Comments</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Add Comment</button>
+            </form>
+            <ul>
+                {% for comment in article.comments.all %}
+                <li>{{ comment.entry }} - {{ comment.created_on }}</li>
+                {% endfor %}
+            </ul>
+
+            <a href="{% url 'wiki:article-list' %}" style="color:#485935">Article List</a>
+        </div>
     </body>
 </html>

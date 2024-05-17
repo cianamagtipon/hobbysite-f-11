@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Forum List</title>
+        <style>
+            /* Style for navigation bar */
+            nav {
+                background-color: #f2f2f2;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            
+            nav ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex; /* Make the list items display in a flex container */
+                align-items: center; /* Align items vertically */
+            }
+            
+            nav ul li {
+                margin-right: 10px;
+            }
+            
+            nav ul li a {
+                text-decoration: none;
+                color: #485935;
+            }
+    
+            /* Position the last list item to the right */
+            nav ul li:last-child {
+                margin-left: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li style="margin-right: 20px;"><a href="{% url 'homepage' %}">Home</a></li>
+                <li style="margin-right: 20px;"><a href="{% url 'forum:threads' %}">Threads</a></li>
+                <li style="margin-right: 20px;"><a href="{% url 'forum:thread-add' %}">Create Thread</a></li>
+                <li style="margin-right: 20px;">
+                    {% if user.is_authenticated %}
+                        <li><form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log out</button>
+                        </form></li>
+                    {% else %}
+                        <li><form action="{% url 'login' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; cursor: pointer; color: #485935;">Log in</button>
+                        </form></li>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        <h1 style="color:#485935">Forum Thread List</h1><meta charset="UTF-8">
+
+        {% regroup user_threads|dictsort:"category.name" by category as user_threads_by_category %}
+        {% regroup all_threads|dictsort:"category.name" by category as all_threads_by_category %}
+
+        <ul>
+            {% for category in user_threads_by_category %}
+            <li>
+                <b style="color:#8A9A5B">{{ category.grouper }}</b>
+                </a>
+                <ul>
+                    {% for thread in category.list %}
+                    <li>
+                        <a href="{{ thread.get_absolute_url }}" style="color:#485935">
+                            {{ thread.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        <hr>
+        <ul>
+            {% for category in all_threads_by_category %}
+            <li>
+                <b style="color:#8A9A5B">{{ category.grouper }}</b>
+                </a>
+                <ul>
+                    {% for thread in category.list %}
+                    <li>
+                        <a href="{{ thread.get_absolute_url }}" style="color:#485935">
+                            {{ thread.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if request.user.is_authenticated %}
+            <p>
+                <a href='{% url "forum:thread-add" %}' style="color:#485935">New Thread</a>
+            </p>
+        {% endif %}
+    </body>
+</html>

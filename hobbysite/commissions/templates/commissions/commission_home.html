@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Commission Actions{% endblock %}
+
+{% block content %}
+<h1>Manage Commissions</h1>
+<ul>
+    <li><a href="{% url 'commissions:list' %}">View All Commissions</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'commissions:add' %}">Create New Commission</a></li>
+    {% endif %}
+</ul>
+{% endblock %}

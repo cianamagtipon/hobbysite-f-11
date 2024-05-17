@@ -1,10 +1,8 @@
 from django.urls import path
-from .views import UpdateView
-from .views import register
+from .views import ProfileUpdateView, register
 
-urlpatterns=[
-    path('profile', UpdateView.as_view(), name='profile'),
-    path('register/', register, name='register')
+app_name = 'user_management'
+urlpatterns = [
+    path('profile/update', ProfileUpdateView.as_view(), name='update_profile'),
+    path('register/', register, name='register'),  # New registration path
 ]
-
-app_name='user_management'
