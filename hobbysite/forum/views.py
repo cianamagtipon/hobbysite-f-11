@@ -34,7 +34,7 @@ class ThreadDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         thread = self.get_object()
-        other_threads = Thread.objects.filter(category=thread.category)
+        other_threads = Thread.objects.filter(category=thread.category).exclude(pk=thread.pk)
         form = self.form_class()
         return render(request, self.template_name, {
             "thread": thread,

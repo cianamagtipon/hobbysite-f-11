@@ -62,6 +62,7 @@
 
         <ul>
             {% for category in user_threads_by_category %}
+            <h2 style="color:#485935">Your Threads</h2>
             <li>
                 <b style="color:#8A9A5B">{{ category.grouper }}</b>
                 </a>
@@ -80,6 +81,7 @@
         <hr>
         <ul>
             {% for category in all_threads_by_category %}
+            <h2 style="color:#485935">Other Threads</h2>
             <li>
                 <b style="color:#8A9A5B">{{ category.grouper }}</b>
                 </a>
@@ -95,10 +97,5 @@
             </li>
             {% endfor %}
         </ul>
-        {% if request.user.is_authenticated %}
-            <p>
-                <a href='{% url "forum:thread-add" %}' style="color:#485935">New Thread</a>
-            </p>
-        {% endif %}
     </body>
 </html>
